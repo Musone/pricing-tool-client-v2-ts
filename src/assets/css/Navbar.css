@@ -1,0 +1,55 @@
+
+/* ~~ Navbar ~~*/
+.Navbar-container {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 0 3rem;
+    height: var(--nav-height);
+    align-items: center;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+nav li {
+    display: inline;
+    padding: 0 .5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--primary_main);
+    border: none;
+    padding: 1rem 1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all .5s ease;
+    overflow-wrap: revert;
+}
+
+nav a.active, nav a:hover {
+    background-color: rgb(255, 255, 255, 0.4);
+    transition: all .5s ease;
+}
+
+.Navbar-nav-tag {
+    display: flex;
+    justify-content: space-between;
+}
+
+.auth-button {
+    color: var(--secondary_2);
+}
+
+.Navbar-container img {
+    cursor: pointer;
+    width: calc(var(--nav-height) / 2);
+    height: calc(var(--nav-height) / 2);
+}
+
+.Navbar-book-now-button {
+    color: var(--secondary_3);
+    outline: var(--secondary_3) solid 1px;
+    margin-left: 3rem;
+}

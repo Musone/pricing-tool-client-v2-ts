@@ -1,25 +1,27 @@
 import React, {ReactElement} from 'react'
-import {Link} from 'react-router-dom'
-import {Routes} from 'react-router-dom'
-import {routes} from "./config/routes";
-import IRoute from "./interfaces/IRoute"
+import {Routes, Route, Link} from 'react-router-dom'
+import {actionRoutes, findACounselorRoute, IRoute, routes} from "./config/routes";
+import Navbar from "./components/navbar/Navbar";
 
-export default function App(): ReactElement {
-    //
+const App = (): ReactElement => {
+    return (
+        <div className={'container'}>
 
-    return <div className={'container'}>
-        <nav>
-            <div>
-                <Link to={'/'}>Home</Link>
-            </div>
-            <div>
-                <Link to={'/auth/login'}>Login</Link> | {' '}
-                <Link to={'/auth/register'}>Create an account</Link>
-            </div>
-        </nav>
-        <Routes>
+            <Navbar/>
+            <Routes>
+                {routes.map((route: IRoute, index: number) => <Route key={index} path={route.path}
+                                                                     element={<route.component/>}/>)}
 
-        </Routes>
-    </div>
+                {/*Todo: Compile all routes into a single list.*/}
+                <Route path={findACounselorRoute.path} element={<findACounselorRoute.component/>}/>
+                {actionRoutes.map((route: IRoute, index: number) => <Route key={index} path={route.path}
+                                                                     element={<route.component/>}/>)}
+
+
+            </Routes>
+        </div>
+    )
 
 }
+
+export default App;
