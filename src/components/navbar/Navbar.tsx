@@ -88,9 +88,9 @@ const Navbar = (): ReactElement => {
     const [userContext, setUserContext] = useContext(UserContext);
     const dropLeftRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        console.log(window.location.pathname);
-    }, [window.location.pathname]);
+    // useEffect(() => {
+    //     console.log(window.location.pathname);
+    // }, [window.location.pathname]);
 
 
     return (

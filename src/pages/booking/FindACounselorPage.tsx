@@ -205,7 +205,7 @@ const FindACounselorPage: FunctionComponent<{
                                      setParentQuery={setQueryParams}/>
             </div>
 
-            <div className={'w-3/4 mb-5 -mt-5'}>
+            <div className={'w-3/4 max-w-screen-2xl mb-5 -mt-5'}>
                 <InPersonFilters className={'-ml-5 -mt-5 bg-transparent'}
                                     hideWhenDisabled={true}
                                  label={'In Person Booking'}

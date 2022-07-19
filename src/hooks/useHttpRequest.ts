@@ -18,7 +18,7 @@ export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, tr
 
     React.useEffect(() => {
             if (typeof url !== 'undefined') {
-                console.debug(`making request to: ${url}`);
+                // console.debug(`making request to: ${url}`);
                 setState({
                     isLoading: true,
                     isError: false,
@@ -47,10 +47,10 @@ export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, tr
                         newState.isError = true;
                         setState(newState);
 
-                        alert('error being sent from httpRequest');
+                        // alert('error being sent from httpRequest');
                     });
             } else {
-                console.debug('Tried to make a request to an undefined url')
+                // console.debug('Tried to make a request to an undefined url')
             }
 
         }, [url, trigger]
