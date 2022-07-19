@@ -1,10 +1,7 @@
-@import 'Navbar.css';
-@import 'BookingHero.css';
-
-*, ::after, ::before {
-    margin: 0;
-    box-sizing: border-box;
-}
+@import 'Spinner.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
     --nav-height: 100px;
@@ -17,14 +14,31 @@
     --secondary_1: #00deb5;
     --secondary_2: #ffc501;
     --secondary_3: #ff4b00;
+    --secondary_4: #009159;
 }
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: white;
+::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border-width: 0;
+    background: var(--primary_main);
+    cursor: pointer;
+}
+
+::-moz-range-thumb:hover {
+    filter: brightness(1.5);
+}
+
+::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border-width: 0;
+    background: var(--primary_main);
+    cursor: pointer;
+}
+
+::-webkit-slider-thumb:hover {
+    filter: brightness(1.5);
 }

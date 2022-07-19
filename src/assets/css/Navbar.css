@@ -39,7 +39,8 @@ nav a.active, nav a:hover {
 }
 
 .auth-button {
-    color: var(--secondary_2);
+    /*color: var(--secondary_2);*/
+    color: #047f91;
 }
 
 .Navbar-container img {

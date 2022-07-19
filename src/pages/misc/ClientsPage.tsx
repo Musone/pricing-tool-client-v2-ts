@@ -1,6 +1,6 @@
-import React, {Component, ReactElement} from 'react';
+import React, {Component, FunctionComponent, ReactElement} from 'react';
 
-const ClientsPage = (): ReactElement => {
+const ClientsPage: FunctionComponent = (): ReactElement => {
 
     return (
         <div>
