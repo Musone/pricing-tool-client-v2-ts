@@ -79,6 +79,8 @@ const CounselorCard: FunctionComponent<{ counselorData: Counselor, lookingForcou
                 temp[k as keyof typeof temp] = v as never;
             }
         })
+
+        setPreview(temp);
     }, [counselorData])
 
     // const {
