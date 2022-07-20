@@ -36,7 +36,10 @@ const ProfilePage: FunctionComponent = () => {
 
                     return res.json()
                 })
-                .then((data) => setCounselorInfo(data))
+                .then((data) => {
+                    setCounselorInfo(data);
+                    console.log({data})
+                })
                 .catch((err) => {
                     if (typeof lastRes === 'undefined') {
                         // setServerNotResponding(true);
