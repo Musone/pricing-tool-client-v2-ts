@@ -92,7 +92,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
             data: {minPrice: 0, maxPrice: 0, occupancy: 0}
         });
 
-    const [counselorPreviewData, setCounselorPreviewData] = useState<Counselor | null>(counselorInfo ? {...counselorInfo} : null);
+    const [counselorPreviewData, setCounselorPreviewData] = useState<Counselor | null>(null);
 
     const [userContext, setUserContext] = useContext(UserContext);
     const [editProfile, setEditProfile] = useState(false);
@@ -156,6 +156,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
     useEffect(() => {
         console.log({counselorPreviewData});
         console.log({INSIDE_COUNSELOR: counselorInfo});
+        console.log({form})
         if (counselorInfo !== null && typeof counselorInfo !== 'undefined') {
             setCounselorPreviewData(counselorInfo);
         }
