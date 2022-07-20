@@ -10,8 +10,9 @@ const DropdownMultiselect: FunctionComponent<{
     filterLabel: string,
     filtersList: string[],
     parentQuery: Object,
-    setParentQuery: CallableFunction
-}> = ({idProp, filterLabel, filtersList, parentQuery, setParentQuery}, props) => {
+    setParentQuery: CallableFunction,
+    trigger?: boolean,
+}> = ({trigger, idProp, filterLabel, filtersList, parentQuery, setParentQuery}, props) => {
     const base64ArrowDownIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABBElEQVRoge2YSw6CMBRFb0LdgGsQVswYJzrwsza3oANp8iD0A7Z9Ve9JOhHbdw5MUIAQQggh5H9pHJ93APYAHgVdfKzy6QE8xzUAMPm8ghgAR+HThzZ04st2XaATYcbZc5/Wt6ld2KAR4ZIPBgDTR6YR4ZMfYg5oAJwcB9wA7JIrT2efPbOjb6BGRDJ5eWCpiOTy8uDcEdnk5YBcEdnl5SBXxB3bIorJy4GpIorLy8GfRqjJS4GtEeryUmRtRDXyUig2ojp5KRaKqFbe4nv5uo5r6ZrWa/oividR7Z2fExtRpbwlFFG1vMUV8RXyFoP3rycrr/3nwGZaAAdtCUIIIYSQX+UFQeDzn63gka4AAAAASUVORK5CYII=';
     const [search, setSearch] = useState('');
     const dropDownRef = useRef<HTMLDivElement>(null);
@@ -48,7 +49,7 @@ const DropdownMultiselect: FunctionComponent<{
         });
 
         setSelectedFilters(temp);
-    }, [])
+    }, [trigger])
 
     function checkForError(filterValue: string, parentQueryCopy: any) {
         const isValidLabel = Object.keys(parentQuery).includes(filterLabel);

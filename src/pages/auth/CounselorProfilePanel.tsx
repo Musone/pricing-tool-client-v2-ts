@@ -58,23 +58,24 @@ interface CounselorPutForm {
 const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo?: Counselor, isCreating: boolean, setLoading: CallableFunction }>
     = ({counselorInfo, isCreating, setLoading, loading}) => {
     const [form, setForm] = useState<CounselorPutForm>({
-        gender: null,
-        age: null,
-        pronouns: null,
-        counselling: null,
-        descriptionLong: null,
-        languages: null,
-        specializations: null,
-        approach: null,
-        credentials: null,
-        pfp: null,
-        approachDesc: null,
-        introduction: null,
-        janeId: null,
-        in_person: null,
-        supervising: null,
+        gender: counselorInfo ? counselorInfo.gender : null,
+        age: counselorInfo ? counselorInfo.age : null,
+        pronouns: counselorInfo ? counselorInfo.pronouns : null,
+        counselling: counselorInfo ? counselorInfo.counselling : null,
+        descriptionLong: counselorInfo ? counselorInfo.descriptionLong : null,
+        languages: counselorInfo ? counselorInfo.languages : null,
+        specializations: counselorInfo ? counselorInfo.specializations : null,
+        approach: counselorInfo ? counselorInfo.approach : null,
+        credentials: counselorInfo ? counselorInfo.credentials : null,
+        pfp: counselorInfo ? counselorInfo.pfp : null,
+        approachDesc: counselorInfo ? counselorInfo.approachDesc : null,
+        introduction: counselorInfo ? counselorInfo.introduction : null,
+        janeId: counselorInfo ? counselorInfo.janeId : null,
+        in_person: counselorInfo ? counselorInfo.in_person : null,
+        supervising: counselorInfo ? counselorInfo.supervising : null,
     });
     const [error, setError] = useState<'SERVER_ERROR' | 'REQUIRED_ERROR' | null>(null);
+    const [trigger, setTrigger] = useState<boolean>(false);
 
     const [counselling, setCounselling] = useState<{ checked: boolean, data: CounsellingInfo }>({
         checked: false,
@@ -121,49 +122,44 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
     }, [counselling, supervising, inPerson])
 
     useEffect(() => {
-        if (counselorPreviewData !== null) {
-            Object.entries(counselorPreviewData).forEach(([k, v]) => {
+
+        if (typeof counselorInfo !== 'undefined' && counselorInfo !== null) {
+            Object.entries(counselorInfo).forEach(([k, v]) => {
                 if (Object.keys(form).includes(k)) {
                     const key = k as keyof CounselorPutForm;
                     form[key] = v as never;
                 }
             })
 
-            if (counselorPreviewData.counselling !== null) {
+            if (counselorInfo.counselling !== null) {
                 setCounselling({
                     checked: true,
-                    data: counselorPreviewData.counselling
+                    data: counselorInfo.counselling
                 });
             }
 
-            if (counselorPreviewData.supervising !== null) {
+            if (counselorInfo.supervising !== null) {
                 setSupervising({
                     checked: true,
-                    data: counselorPreviewData.supervising,
+                    data: counselorInfo.supervising,
                 });
             }
 
-            if (counselorPreviewData.in_person !== null) {
+            if (counselorInfo.in_person !== null) {
                 setInPerson({
                     checked: true,
-                    data: counselorPreviewData.in_person,
+                    data: counselorInfo.in_person,
                 });
             }
+
+            setCounselorPreviewData(counselorInfo);
         }
+
 
     }, [counselorInfo])
 
     useEffect(() => {
-        // console.log({counselorPreviewData});
-        console.log({INSIDE_COUNSELOR: counselorInfo});
-        console.log({form})
-        if (counselorInfo !== null && typeof counselorInfo !== 'undefined') {
-            setCounselorPreviewData(counselorInfo);
-        }
-    }, [form, counselorInfo])
 
-    useEffect(() => {
-        console.log({counselorPreviewData});
     }, [counselorPreviewData])
 
     /**
@@ -366,14 +362,14 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                     <label className={'font-semibold focus:outline-0'}>Pronouns<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
                                     <Dropdown filterList={PRONOUN_DUMBY_LIST} filterLabel={'pronouns'}
-                                              parentQuery={form} setParentQuery={setForm}/>
+                                              parentQuery={form} setParentQuery={setForm} trigger={trigger}/>
                                 </div>
 
                                 <div>
                                     <label className={'font-semibold focus:outline-0'}>Gender<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
                                     <Dropdown filterList={GENDER_DUMBY_LIST} filterLabel={'gender'}
-                                              parentQuery={form} setParentQuery={setForm}/>
+                                              parentQuery={form} setParentQuery={setForm} trigger={trigger}/>
                                 </div>
                             </div>
 
@@ -382,14 +378,16 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                     <label className={'font-semibold'}>Specializations</label>
                                     <DropdownMultiselect filterLabel={'specializations'}
                                                          filtersList={SPECS_DUMBY_LIST} parentQuery={form}
-                                                         setParentQuery={setForm}/>
+                                                         setParentQuery={setForm}
+                                                         trigger={trigger}/>
                                 </div>
 
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Credentials</label>
                                     <DropdownMultiselect filterLabel={'credentials'}
                                                          filtersList={CREDS_DUMBY_LIST} parentQuery={form}
-                                                         setParentQuery={setForm}/>
+                                                         setParentQuery={setForm}
+                                                         trigger={trigger}/>
                                 </div>
 
                                 <div className={'flex flex-col'}>
@@ -398,6 +396,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                                          filtersList={LANG_DUMBY_LIST}
                                                          parentQuery={form}
                                                          setParentQuery={setForm}
+                                                         trigger={trigger}
                                     />
                                 </div>
 
@@ -407,6 +406,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                                          filtersList={APPROACH_DUMBY_LIST}
                                                          parentQuery={form}
                                                          setParentQuery={setForm}
+                                                         trigger={trigger}
                                     />
                                 </div>
                             </div>

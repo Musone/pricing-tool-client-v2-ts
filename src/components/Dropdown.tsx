@@ -4,7 +4,7 @@ import TagComponent from "./TagComponent";
 import capitalize from "../hooks/capitalize";
 
 
-const dropdown: FunctionComponent<{ noChoose?:boolean, value?: string, disabled?: boolean, filterLabel: string, filterList: string[], parentQuery: Object, setParentQuery: CallableFunction }>
+const dropdown: FunctionComponent<{ noChoose?:boolean, value?: string, disabled?: boolean, filterLabel: string, filterList: string[], parentQuery: Object, setParentQuery: CallableFunction, trigger?: boolean }>
     = ({
             noChoose,
            disabled,
@@ -12,7 +12,8 @@ const dropdown: FunctionComponent<{ noChoose?:boolean, value?: string, disabled?
            filterList,
            parentQuery,
            setParentQuery,
-           value
+           value,
+    trigger
        }) => {
     const base64ArrowDownIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAABBElEQVRoge2YSw6CMBRFb0LdgGsQVswYJzrwsza3oANp8iD0A7Z9Ve9JOhHbdw5MUIAQQggh5H9pHJ93APYAHgVdfKzy6QE8xzUAMPm8ghgAR+HThzZ04st2XaATYcbZc5/Wt6ld2KAR4ZIPBgDTR6YR4ZMfYg5oAJwcB9wA7JIrT2efPbOjb6BGRDJ5eWCpiOTy8uDcEdnk5YBcEdnl5SBXxB3bIorJy4GpIorLy8GfRqjJS4GtEeryUmRtRDXyUig2ojp5KRaKqFbe4nv5uo5r6ZrWa/oividR7Z2fExtRpbwlFFG1vMUV8RXyFoP3rycrr/3nwGZaAAdtCUIIIYSQX+UFQeDzn63gka4AAAAASUVORK5CYII=';
     const dropDownRef = useRef<HTMLDivElement>(null);
@@ -36,7 +37,7 @@ const dropdown: FunctionComponent<{ noChoose?:boolean, value?: string, disabled?
         }
 
         setSelected(parentQuery[key] as unknown as string);
-    }, [])
+    }, [trigger])
 
     function checkForError() {
         const isValidLabel = Object.keys(parentQuery).includes(filterLabel);
