@@ -69,12 +69,10 @@ const ProfilePage: FunctionComponent = () => {
                 <div
                     className={`${loading ? 'blur-sm' : ''} max-w-screen-xl mb-96 mt-5 flex flex-wrap w-full w-3/4 mb-10 border-l border-offWhiteOutline shadow-md px-5 py-5 gap-5`}>
 
-                    {userContext !== null && (counselorInfo !== null || isNewCounselor) && <>
-                        {/*<label className={'font-bold'}>Preview</label>*/}
+                    {userContext !== null && ((counselorInfo !== null && typeof counselorInfo !== 'undefined') || isNewCounselor) &&
+                        <CounselorProfilePanel counselorInfo={counselorInfo ? counselorInfo : undefined}
+                                                isCreating={isNewCounselor} setLoading={setLoading} loading={loading}/>
 
-                        <CounselorProfilePanel counselorInfo={counselorInfo === null ? undefined : counselorInfo}
-                                               isCreating={isNewCounselor} setLoading={setLoading} loading={loading}/>
-                    </>
                     }
                 </div>
             </>
