@@ -154,13 +154,17 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
     }, [counselorInfo])
 
     useEffect(() => {
-        console.log({counselorPreviewData});
+        // console.log({counselorPreviewData});
         console.log({INSIDE_COUNSELOR: counselorInfo});
         console.log({form})
         if (counselorInfo !== null && typeof counselorInfo !== 'undefined') {
             setCounselorPreviewData(counselorInfo);
         }
     }, [form, counselorInfo])
+
+    useEffect(() => {
+        console.log({counselorPreviewData});
+    }, [counselorPreviewData])
 
     /**
      * Updates
