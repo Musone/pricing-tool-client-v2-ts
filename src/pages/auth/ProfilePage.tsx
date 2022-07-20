@@ -38,7 +38,7 @@ const ProfilePage: FunctionComponent = () => {
                 })
                 .then((data) => {
                     setCounselorInfo(data);
-                    console.log({data})
+                    console.log({FROM_PROFILE_PAGE: data})
                 })
                 .catch((err) => {
                     if (typeof lastRes === 'undefined') {
