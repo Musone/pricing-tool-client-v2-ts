@@ -151,7 +151,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
             }
         }
 
-    }, [])
+    }, [counselorInfo])
 
     useEffect(() => {
         console.log({counselorPreviewData});
