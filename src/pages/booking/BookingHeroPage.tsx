@@ -1,7 +1,7 @@
 import React, {ChangeEvent, Component, FunctionComponent, ReactElement, useState} from 'react';
 import HERO from '../../assets/images/hero.jpg'
 import {Link} from "react-router-dom";
-import {findACounselorRoute} from "../../config/generalRoutes";
+import {findACounselorRoute} from "../../constants/generalRoutes";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 

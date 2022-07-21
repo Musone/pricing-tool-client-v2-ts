@@ -7,7 +7,7 @@ import {
     bookingRoutes,
     findACounselorRoute,
     profilePageRoute, emailVerificationPageRoute, forgotPasswordPageRoute, signOutPageRoute
-} from "./config/generalRoutes";
+} from "./constants/generalRoutes";
 import Navbar from "./components/navbar/Navbar";
 import './assets/css/index.css'
 import FindACounselorPage from "./pages/booking/FindACounselorPage";

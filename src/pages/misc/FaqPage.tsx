@@ -1,5 +1,5 @@
 import React, {ReactElement} from 'react';
-import FAQ_DATA from "../../config/faqData";
+import FAQ_DATA from "../../constants/faqData";
 
 const FaqPage = (): ReactElement => {
 

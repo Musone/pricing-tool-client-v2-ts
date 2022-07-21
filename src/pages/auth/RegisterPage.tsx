@@ -2,7 +2,7 @@ import React, {Component, FormEvent, ReactElement, useState} from 'react';
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import {emailSchema, isEmailValid, isPasswordValid, login, passwordSchema, REGISTRATION_URL} from "../../hooks/auth";
 import Spinner from "../../components/Spinner";
-import {emailVerificationPageRoute} from "../../config/generalRoutes";
+import {emailVerificationPageRoute} from "../../constants/generalRoutes";
 import PageWrapper from "../../components/PageWrapper";
 
 const RegisterPage = (): ReactElement => {

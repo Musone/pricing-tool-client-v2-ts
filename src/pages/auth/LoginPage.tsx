@@ -17,7 +17,7 @@ import {UserContext, UserObj} from "../../App";
 import {emailSchema, fetchUserInfo, isEmailValid, isPasswordValid, login, passwordSchema} from "../../hooks/auth";
 import PageWrapper from "../../components/PageWrapper";
 import {Link} from "react-router-dom";
-import {forgotPasswordPageRoute} from "../../config/generalRoutes";
+import {forgotPasswordPageRoute} from "../../constants/generalRoutes";
 
 /**
  * todo: I could do the error handling better in here.

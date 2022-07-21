@@ -7,7 +7,7 @@ import {
     bookingRoutes,
     profilePageRoute,
     signOutPageRoute
-} from "../../config/generalRoutes";
+} from "../../constants/generalRoutes";
 import {NavLink} from "react-router-dom";
 import LOGO from '../../assets/images/logo3.svg'
 import {lastFocusedElement, UserContext} from "../../App";
