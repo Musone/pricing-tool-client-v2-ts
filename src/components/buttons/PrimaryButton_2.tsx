@@ -1,12 +1,9 @@
 import React, {FunctionComponent, ReactElement} from "react";
 
 
-const PrimaryButton_2: FunctionComponent<{ loading?: boolean, text: string, callBack?: CallableFunction, type?: "reset" | "submit" | "button" | undefined }> = ({
-                                                                                                              text,
-    loading,
-                                                                                                              callBack,
-                                                                                                              type
-                                                                                                          }): ReactElement => {
+const PrimaryButton_2: FunctionComponent<{ loading?: boolean, text: string, callBack?: CallableFunction, type?: "reset" | "submit" | "button" | undefined }>
+    = ({text, loading, callBack, type}): ReactElement => {
+
     return (
         <button
             disabled={loading}

@@ -1,0 +1,17 @@
+import React, {FunctionComponent, ReactElement, useEffect, useState} from 'react';
+import ICounselor from "../../interfaces/ICounselor";
+import useHttpRequest from "../../hooks/useHttpRequest";
+import CounselorCardItem from "./CounselorCardItem";
+
+const CounselorCardItemList: FunctionComponent<{ counselorItemList: ICounselor[], counsellingProp: boolean, supervisingProp: boolean }>
+    = ({counselorItemList, counsellingProp, supervisingProp}): ReactElement => {
+
+
+    return (
+        <div className={"flex flex-col items-center w-3/4 h-fit pb-20 break-words"}>
+            {counselorItemList.map((stuff: ICounselor, i: number) => <CounselorCardItem key={i} counselor={stuff} />)}
+        </div>
+    );
+}
+
+export default CounselorCardItemList;

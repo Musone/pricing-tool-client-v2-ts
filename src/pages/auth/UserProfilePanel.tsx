@@ -1,11 +1,12 @@
 import React, {FormEvent, FunctionComponent, useContext, useEffect, useState} from "react";
-import capitalize from "../../hooks/capitalize";
+import capitalize from "../../utils/capitalize";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
-import {UserContext, UserObj} from "../../App";
-import {isEmailValid, isPasswordValid, refreshAccessToken} from "../../hooks/auth";
+import {UserObj} from "../../App";
+import {isEmailValid, isPasswordValid, refreshAccessToken} from "../../utils/auth";
 import config from "../../config/config";
 import Spinner from "../../components/Spinner";
+import UserContext from "../../contexts/UserContext";
 
 
 const UserProfilePanel: FunctionComponent<{loading:boolean, setLoading: CallableFunction}> = ({setLoading, loading}) => {

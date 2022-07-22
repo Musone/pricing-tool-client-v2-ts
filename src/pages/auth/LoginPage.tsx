@@ -9,15 +9,12 @@ import React, {
     useState
 } from 'react';
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
-import useHttpRequest from "../../hooks/useHttpRequest";
 import Spinner from "../../components/Spinner";
-import {string} from "zod";
-import config from "../../config/config";
-import {UserContext, UserObj} from "../../App";
-import {emailSchema, fetchUserInfo, isEmailValid, isPasswordValid, login, passwordSchema} from "../../hooks/auth";
+import {isEmailValid, isPasswordValid, login} from "../../utils/auth";
 import PageWrapper from "../../components/PageWrapper";
 import {Link} from "react-router-dom";
 import {forgotPasswordPageRoute} from "../../constants/generalRoutes";
+import UserContext from "../../contexts/UserContext";
 
 /**
  * todo: I could do the error handling better in here.

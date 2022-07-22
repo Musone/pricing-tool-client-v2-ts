@@ -1,16 +1,13 @@
 import React, {ChangeEvent, FormEvent, FunctionComponent, useContext, useEffect, useState} from "react";
-import {UserContext} from "../../App";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
-import Counselor from "../../interfaces/Counselor";
+import ICounselor from "../../interfaces/ICounselor";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 import config from "../../config/config";
-import CounselorCardList from "../booking/CounselorCardList";
-import CounselorCard from "../booking/CounselorCard";
-import DropdownMultiselect from "../../components/DropdownMultiselect";
-import Button from "../../components/buttons/Button";
-import Dropdown from "../../components/Dropdown";
-import SupervisingInfo from "../../interfaces/SupervisingInfo";
-import CounsellingInfo from "../../interfaces/CounsellingInfo";
+import CounselorCardItem from "../../components/counselorCard/CounselorCardItem";
+import DropdownMultiselect from "../../components/dropdowns/DropdownMultiselect";
+import Dropdown from "../../components/dropdowns/Dropdown";
+import ISupervisingInfo from "../../interfaces/ISupervisingInfo";
+import ICounsellingInfo from "../../interfaces/ICounsellingInfo";
 import {
     APPROACH_DUMBY_LIST,
     CREDS_DUMBY_LIST,
@@ -19,9 +16,10 @@ import {
     PRONOUN_DUMBY_LIST,
     SPECS_DUMBY_LIST
 } from "../../constants/Constants";
-import ProvinceAndCity from "../../interfaces/ProvinceAndCity";
+import IProvinceAndCity from "../../interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
+import UserContext from "../../contexts/UserContext";
 
 interface CounselorPutForm {
     age: null | number;
@@ -55,7 +53,7 @@ interface CounselorPutForm {
 }
 
 
-const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo?: Counselor, isCreating: boolean, setLoading: CallableFunction }>
+const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo?: ICounselor, isCreating: boolean, setLoading: CallableFunction }>
     = ({counselorInfo, isCreating, setLoading, loading}) => {
     const [form, setForm] = useState<CounselorPutForm>({
         gender: counselorInfo ? counselorInfo.gender : null,
@@ -77,23 +75,23 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
     const [error, setError] = useState<'SERVER_ERROR' | 'REQUIRED_ERROR' | null>(null);
     const [trigger, setTrigger] = useState<boolean>(false);
 
-    const [counselling, setCounselling] = useState<{ checked: boolean, data: CounsellingInfo }>({
+    const [counselling, setCounselling] = useState<{ checked: boolean, data: ICounsellingInfo }>({
         checked: false,
         data: {minPrice: 0, maxPrice: 0}
     });
 
-    const [inPerson, setInPerson] = useState<{ checked: boolean, data: ProvinceAndCity }>({
+    const [inPerson, setInPerson] = useState<{ checked: boolean, data: IProvinceAndCity }>({
         checked: false,
         data: {city: Object.values(PROVINCES_DUMBY_LIST)[0][0], province: Object.keys(PROVINCES_DUMBY_LIST)[0]}
     });
 
-    const [supervising, setSupervising] = useState<{ checked: boolean, data: SupervisingInfo }>(
+    const [supervising, setSupervising] = useState<{ checked: boolean, data: ISupervisingInfo }>(
         {
             checked: false,
             data: {minPrice: 0, maxPrice: 0, occupancy: 0}
         });
 
-    const [counselorPreviewData, setCounselorPreviewData] = useState<Counselor | null>(null);
+    const [counselorPreviewData, setCounselorPreviewData] = useState<ICounselor | null>(null);
 
     const [userContext, setUserContext] = useContext(UserContext);
     const [editProfile, setEditProfile] = useState(false);
@@ -168,11 +166,11 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
      */
     function syncFormWithPreview(updatedForm: CounselorPutForm) {
         if (updatedForm !== null && counselorPreviewData !== null) {
-            let temp: Counselor = {...counselorPreviewData};
+            let temp: ICounselor = {...counselorPreviewData};
 
             Object.entries(updatedForm).forEach(([k, v]) => {
                 if (Object.keys(counselorPreviewData).includes(k)) {
-                    const key = k as keyof Counselor;
+                    const key = k as keyof ICounselor;
 
                     if (v === null) {
                         if (Array.isArray(temp[key])) {
@@ -203,8 +201,8 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
         setForm(temp);
 
         if (counselorPreviewData !== null) {
-            let temp2: Counselor = {...counselorPreviewData};
-            temp2[key as keyof Counselor] = value as never;
+            let temp2: ICounselor = {...counselorPreviewData};
+            temp2[key as keyof ICounselor] = value as never;
             setCounselorPreviewData(temp2);
         }
     }
@@ -297,8 +295,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                 <label className={'font-semibold text-lg'}>Counselor Preview</label>
                 <div className={'border-2 border-muted p-5 rounded-md'}>
                     {counselorPreviewData ?
-                        <CounselorCard counselorData={counselorPreviewData} lookingForcounselor={true}
-                                       lookingForSupervisor={false}/>
+                        <CounselorCardItem counselor={counselorPreviewData} />
                         :
                         <span>No preview available</span>
                     }
@@ -461,14 +458,14 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                     checked: !inPerson.checked,
                                     data: inPerson.data
                                 });
-                            }} parentQuery={(val: ProvinceAndCity) =>
+                            }} parentQuery={(val: IProvinceAndCity) =>
                                 setInPerson({
                                     checked: inPerson.checked,
                                     data: {
                                         province: val.province,
                                         city: PROVINCES_DUMBY_LIST[val.province as keyof typeof PROVINCES_DUMBY_LIST][0]
                                     }
-                                })} parentQuery1={(val: ProvinceAndCity) => setInPerson({
+                                })} parentQuery1={(val: IProvinceAndCity) => setInPerson({
                                 checked: inPerson.checked,
                                 data: {
                                     province: inPerson.data.province,

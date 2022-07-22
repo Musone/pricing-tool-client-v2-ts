@@ -1,15 +1,14 @@
 import React from "react";
 
-export interface HttpReqObj {
+export interface IHttpReqObj {
     isLoading: boolean,
     isError: boolean,
     data: any,
     res: Response | null,
-
 }
 
 export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, trigger?: boolean) {
-    const [state, setState] = React.useState<HttpReqObj>({
+    const [state, setState] = React.useState<IHttpReqObj>({
         isLoading: false,
         isError: false,
         data: null,
@@ -18,7 +17,6 @@ export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, tr
 
     React.useEffect(() => {
             if (typeof url !== 'undefined') {
-                // console.debug(`making request to: ${url}`);
                 setState({
                     isLoading: true,
                     isError: false,
@@ -26,7 +24,7 @@ export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, tr
                     res: null,
                 });
 
-                let newState: HttpReqObj = {
+                let newState: IHttpReqObj = {
                     isLoading: false,
                     isError: false,
                     data: null,
@@ -47,10 +45,7 @@ export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, tr
                         newState.isError = true;
                         setState(newState);
 
-                        // alert('error being sent from httpRequest');
                     });
-            } else {
-                // console.debug('Tried to make a request to an undefined url')
             }
 
         }, [url, trigger]

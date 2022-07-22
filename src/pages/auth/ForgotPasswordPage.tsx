@@ -4,7 +4,8 @@ import {useLocation} from "react-router-dom";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import Spinner from "../../components/Spinner";
 import config from "../../config/config";
-import {isEmailValid, isPasswordValid} from "../../hooks/auth";
+import {isEmailValid, isPasswordValid} from "../../utils/auth";
+
 
 
 const ForgotPasswordPage: FunctionComponent = () => {

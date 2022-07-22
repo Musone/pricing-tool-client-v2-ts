@@ -1,4 +1,4 @@
-import React, {FC, FunctionComponent, ReactElement, useContext, useEffect, useRef} from "react";
+import React, {FunctionComponent, ReactElement, useContext, useEffect, useRef} from "react";
 import {Link} from "react-router-dom";
 import {
     generalRoutes,
@@ -10,7 +10,8 @@ import {
 } from "../../constants/generalRoutes";
 import {NavLink} from "react-router-dom";
 import LOGO from '../../assets/images/logo3.svg'
-import {lastFocusedElement, UserContext} from "../../App";
+import {lastFocusedElement} from "../../App";
+import UserContext from "../../contexts/UserContext";
 
 const NavbarLinks: FunctionComponent<{ classProp?: string }> = ({classProp}): ReactElement => {
     const [userContext, setUserContext] = useContext(UserContext);
