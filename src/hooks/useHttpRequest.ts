@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, useState} from "react";
 
 export interface IHttpReqObj {
     isLoading: boolean,
@@ -7,49 +7,51 @@ export interface IHttpReqObj {
     res: Response | null,
 }
 
-export default function useHttpRequest(url?: RequestInfo, init?: RequestInit, trigger?: boolean) {
-    const [state, setState] = React.useState<IHttpReqObj>({
+let timeout: number | undefined = undefined;
+export default function useHttpRequest(url: RequestInfo, init?: RequestInit, trigger?: boolean) {
+    const [state, setState] = useState<IHttpReqObj>({
         isLoading: false,
         isError: false,
         data: null,
         res: null,
     });
 
-    React.useEffect(() => {
-            if (typeof url !== 'undefined') {
-                setState({
-                    isLoading: true,
-                    isError: false,
-                    data: null,
-                    res: null,
-                });
-
-                let newState: IHttpReqObj = {
-                    isLoading: false,
-                    isError: false,
-                    data: null,
-                    res: null
-                }
-
-                fetch(url, init)
-                    .then((res) => {
-                        newState.res = res;
-                        return res.json();
-                    })
-                    .then((data) => {
-                        newState.data = data;
-                        setState(newState);
-                    })
-                    .catch((error) => {
-                        newState.data = null;
-                        newState.isError = true;
-                        setState(newState);
-
-                    });
-            }
-
+    useEffect(() => {
+            setState({
+                isLoading: true,
+                isError: false,
+                data: null,
+                res: null,
+            });
+            clearTimeout(timeout);
+            timeout = setTimeout(() => makeRequest(), 400)
         }, [url, trigger]
     );
+
+    function makeRequest() {
+        let newState: IHttpReqObj = {
+            isLoading: false,
+            isError: false,
+            data: null,
+            res: null
+        }
+
+        fetch(url, init)
+            .then((res) => {
+                newState.res = res;
+                return res.json();
+            })
+            .then((data) => {
+                newState.data = data;
+                setState(newState);
+            })
+            .catch((error) => {
+                newState.data = null;
+                newState.isError = true;
+                setState(newState);
+            });
+
+    }
 
     return state;
 }

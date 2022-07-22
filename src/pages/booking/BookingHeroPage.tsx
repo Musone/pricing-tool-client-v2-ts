@@ -10,8 +10,6 @@ const BookingHeroPage: FunctionComponent = (): ReactElement => {
     return (
         <div className={"w-screen h-auto flex justify-center "}>
             <div className={"flex flex-col items-start lg:items-center h-fit py-28 w-3/4 gap-10"}>
-
-
                 <div className="flex flex-col lg:flex-row gap-10 max-w-fit">
 
                     <img src={HERO} alt={'Hero'}/>

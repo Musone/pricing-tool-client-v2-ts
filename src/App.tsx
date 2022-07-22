@@ -11,7 +11,7 @@ import {
     profilePageRoute,
     signOutPageRoute
 } from "./constants/generalRoutes";
-import Navbar from "./components/navbar/Navbar";
+import NavbarContainer from "./components/navbar/NavbarContainer";
 import './assets/css/index.css'
 import FindACounselorPage from "./pages/booking/FindACounselorPage";
 import {fetchUserInfo} from "./utils/auth";
@@ -62,7 +62,7 @@ const App = (): ReactElement => {
 
     return (
         <UserContext.Provider value={[userContext, setUserContext]}>
-            <Navbar/>
+            <NavbarContainer/>
                 <Routes>
                     {generalRoutes.map((route: IRoute, index: number) => (
                         <Route key={index} path={route.path} element={<route.component/>}/>
