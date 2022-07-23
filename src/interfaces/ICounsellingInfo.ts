@@ -1,4 +1,4 @@
-export default interface CounsellingInfo {
+export default interface ICounsellingInfo {
     minPrice: number;
     maxPrice: number;
 }

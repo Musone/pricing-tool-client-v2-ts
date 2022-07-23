@@ -1,4 +1,4 @@
-export default interface SupervisingInfo {
+export default interface ISupervisingInfo {
     minPrice: number;
     maxPrice: number;
     occupancy: number;

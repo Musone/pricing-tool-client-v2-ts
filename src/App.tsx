@@ -1,17 +1,22 @@
-import React, {Context, createContext, Dispatch, ReactElement, SetStateAction, useEffect, useState} from 'react'
-import {Routes, Route, Link, useLocation} from 'react-router-dom'
+import React, {ReactElement, useEffect, useState} from 'react'
+import {Route, Routes, useLocation} from 'react-router-dom'
 import {
     actionRoutes,
-    IRoute,
-    generalRoutes,
     bookingRoutes,
+    emailVerificationPageRoute,
     findACounselorRoute,
-    profilePageRoute, emailVerificationPageRoute, forgotPasswordPageRoute, signOutPageRoute
-} from "./config/generalRoutes";
-import Navbar from "./components/navbar/Navbar";
+    forgotPasswordPageRoute,
+    generalRoutes,
+    IRoute,
+    profilePageRoute,
+    signOutPageRoute
+} from "./constants/generalRoutes";
+import NavbarContainer from "./components/navbar/NavbarContainer";
 import './assets/css/index.css'
 import FindACounselorPage from "./pages/booking/FindACounselorPage";
-import {fetchUserInfo} from "./hooks/auth";
+import {fetchUserInfo} from "./utils/auth";
+import UserContext from "./contexts/UserContext";
+import DisplayType from "./enums/DisplayType";
 
 export interface UserObj {
     _id: string,
@@ -22,7 +27,6 @@ export interface UserObj {
 }
 
 export let lastFocusedElement: Element | null = null;
-export const UserContext = createContext<[UserObj | null, Dispatch<SetStateAction<UserObj | null>> | null]>([null, null]);
 
 
 const App = (): ReactElement => {
@@ -58,7 +62,7 @@ const App = (): ReactElement => {
 
     return (
         <UserContext.Provider value={[userContext, setUserContext]}>
-            <Navbar/>
+            <NavbarContainer/>
                 <Routes>
                     {generalRoutes.map((route: IRoute, index: number) => (
                         <Route key={index} path={route.path} element={<route.component/>}/>
@@ -70,8 +74,8 @@ const App = (): ReactElement => {
                     ))}
 
                     {/*Todo: figure out how to handle pages that take props*/}
-                    <Route path={findACounselorRoute.path} element={<FindACounselorPage counsellingProp={true} supervisingProp={false}/>}/>
-                    <Route path={'/booking/find-a-supervisor'} element={<FindACounselorPage counsellingProp={false} supervisingProp={true}/>}/>
+                    <Route path={findACounselorRoute.path} element={<FindACounselorPage  displayType={DisplayType.Counselor} />}/>
+                    <Route path={'/booking/find-a-supervisor'} element={<FindACounselorPage displayType={DisplayType.Supervisor} />}/>
 
                     {actionRoutes.map((route: IRoute, index: number) => (
                         <Route key={index} path={route.path} element={<route.component/>}/>

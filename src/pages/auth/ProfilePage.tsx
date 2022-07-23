@@ -1,23 +1,18 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from "react";
-import {UserContext, UserObj} from "../../App";
-import capitalize from "../../hooks/capitalize";
 import PageWrapper from "../../components/PageWrapper";
-import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
-import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 import UserProfilePanel from "./UserProfilePanel";
 import CounselorProfilePanel from "./CounselorProfilePanel";
-import Counselor from "../../interfaces/Counselor";
-import {COUNSELOR_ME_URL} from "../../hooks/auth";
+import ICounselor from "../../interfaces/ICounselor";
+import {COUNSELOR_ME_URL} from "../../utils/auth";
 import config from "../../config/config";
-import CounselorCard from "../booking/CounselorCard";
-import CounselorCardList from "../booking/CounselorCardList";
 import Spinner from "../../components/Spinner";
+import UserContext from "../../contexts/UserContext";
 
 
 const ProfilePage: FunctionComponent = () => {
     const [userContext, setUserContext] = useContext(UserContext);
     const [loading, setLoading] = useState(false);
-    const [counselorInfo, setCounselorInfo] = useState<Counselor | null>(null);
+    const [counselorInfo, setCounselorInfo] = useState<ICounselor | null>(null);
     const [isNewCounselor, setisNewCounselor] = useState(false);
 
     useEffect(() => {

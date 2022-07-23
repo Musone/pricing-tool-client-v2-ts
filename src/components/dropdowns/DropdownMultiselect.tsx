@@ -1,8 +1,8 @@
 import React, {MouseEvent, ChangeEvent, FunctionComponent, useEffect, useState, useRef} from "react";
-import TagComponent from "./TagComponent";
-import {QueryParamObj} from "../pages/booking/FindACounselorPage";
-import capitalize from "../hooks/capitalize";
-import {lastFocusedElement} from "../App";
+import Tag from "../Tag";
+import {QueryParamObj} from "../../pages/booking/FindACounselorPage";
+import capitalize from "../../utils/capitalize";
+import {lastFocusedElement} from "../../App";
 
 
 const DropdownMultiselect: FunctionComponent<{
@@ -143,12 +143,12 @@ const DropdownMultiselect: FunctionComponent<{
 
                 <div className={'flex flex-wrap grow overflow-hidden'}>
                     {selectedFilters.length > 0 ?
-                        selectedFilters.map((filterName: string, i) => <TagComponent callBack={() => {
+                        selectedFilters.map((filterName: string, i) => <Tag callBack={() => {
                             handleFilterOnClick(filterName);
                             window.focus();
                         }}
-                            closable={true} key={i} inputText={filterName}
-                                                                                customColour={'border-secondary_4 bg-secondary_4/10 text-secondary_4'}/>)
+                                                                            closable={true} key={i} inputText={filterName}
+                                                                            customColour={'border-secondary_4 bg-secondary_4/10 text-secondary_4'}/>)
                         : <span className={'text-secondary_1 brightness-[.78] h-4'}>{
                             'Select'
                             + (filterLabel.toLowerCase().endsWith('s') ? ' ' : ' a')

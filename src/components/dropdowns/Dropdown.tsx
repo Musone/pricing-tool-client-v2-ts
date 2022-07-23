@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FunctionComponent, MouseEvent, useEffect, useRef, useState} from "react";
-import {lastFocusedElement} from "../App";
-import TagComponent from "./TagComponent";
-import capitalize from "../hooks/capitalize";
+import {lastFocusedElement} from "../../App";
+import Tag from "../Tag";
+import capitalize from "../../utils/capitalize";
 
 
 const dropdown: FunctionComponent<{ noChoose?:boolean, value?: string, disabled?: boolean, filterLabel: string, filterList: string[], parentQuery: Object, setParentQuery: CallableFunction, trigger?: boolean }>

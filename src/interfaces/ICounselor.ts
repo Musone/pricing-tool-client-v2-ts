@@ -1,15 +1,15 @@
-import CounsellingInfo from "./CounsellingInfo";
-import SupervisingInfo from "./SupervisingInfo";
-import ProvinceAndCity from "./ProvinceAndCity";
+import ICounsellingInfo from "./ICounsellingInfo";
+import ISupervisingInfo from "./ISupervisingInfo";
+import IProvinceAndCity from "./IProvinceAndCity";
 
-export default interface Counselor {
+export default interface ICounselor {
     user: string;
     firstName: string;
     lastName: string;
     gender: string;
     age: number;
     pronouns: string;
-    in_person: ProvinceAndCity | null;
+    in_person: IProvinceAndCity | null;
     languages: string[];
     specializations: string[];
     specializationDesc: string;
@@ -20,6 +20,6 @@ export default interface Counselor {
     descriptionLong: string;
     introduction: string;
     janeId: number | null;
-    counselling: CounsellingInfo | null;
-    supervising: SupervisingInfo | null;
+    counselling: ICounsellingInfo | null;
+    supervising: ISupervisingInfo | null;
 }

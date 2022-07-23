@@ -1,7 +1,7 @@
 import React, {FunctionComponent, Ref} from "react";
 
 
-const TagComponent: FunctionComponent<{ callBack?: CallableFunction, inputText: string, customColour?: string, closable?: boolean }> = ({
+const Tag: FunctionComponent<{ callBack?: CallableFunction, inputText: string, customColour?: string, closable?: boolean }> = ({
                                                                                                                                            callBack,
                                                                                                                                            closable,
                                                                                                                                            inputText,
@@ -25,5 +25,4 @@ const TagComponent: FunctionComponent<{ callBack?: CallableFunction, inputText: 
         </div>
     )
 }
-// `border-${colour} bg-${colour}/20 text-${colour}`
-export default TagComponent;
+export default Tag;

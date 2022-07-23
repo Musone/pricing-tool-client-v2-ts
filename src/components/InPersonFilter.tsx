@@ -1,5 +1,5 @@
-import ProvinceAndCity from "../interfaces/ProvinceAndCity";
-import Dropdown from "./Dropdown";
+import IProvinceAndCity from "../interfaces/IProvinceAndCity";
+import Dropdown from "./dropdowns/Dropdown";
 import PROVINCES_DUMBY_LIST from "../constants/Provinces";
 import React from "react";
 
@@ -7,10 +7,10 @@ export default function InPersonFilters(props: {
     className?: string,
     hideWhenDisabled?: boolean,
     label?: string,
-    inPerson: { checked: boolean; data: ProvinceAndCity },
+    inPerson: { checked: boolean; data: IProvinceAndCity },
     onChange: () => void,
-    parentQuery: (val: ProvinceAndCity) => void,
-    parentQuery1: (val: ProvinceAndCity) => void
+    parentQuery: (val: IProvinceAndCity) => void,
+    parentQuery1: (val: IProvinceAndCity) => void
 }) {
     return <>
         {/*IN PERSON*/}
