@@ -254,7 +254,6 @@ const CounselorProfileView: FunctionComponent<{
                                                         form.setValue('counselling', null);
                                                     }
                                                 }}
-                                                err={errors.counselling}
                         >
 
                             <NumberInput label={'Cost per session'}
@@ -271,6 +270,7 @@ const CounselorProfileView: FunctionComponent<{
                                                  maxPrice: value,
                                              })
                                          }}
+                                         err={errors.counselling}
                             />
                         </CheckBoxInputContainer>
 
