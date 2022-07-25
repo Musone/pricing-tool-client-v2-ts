@@ -29,7 +29,7 @@ const CounselorProfileLogic: FunctionComponent<{
 
     useEffect(() => setSpinner(isSubmitting), [isSubmitting])
 
-    /*
+
     const fileSelectedHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null) return;
 
@@ -38,12 +38,10 @@ const CounselorProfileLogic: FunctionComponent<{
 
         fileReader.onload = (loadEvent) => {
             let base64img = loadEvent.target?.result;
-            let temp = {...form};
-            temp.pfp = base64img as string;
-            updateFormAndPreview(temp.pfp, 'pfp');
+            form.setValue('pfp', base64img as string);
         }
         fileReader.readAsDataURL(myFile);
-    }*/
+    }
 
     const handleSubmit = async (data: IPutCounselorForm) => {
         setServerError(null);
@@ -74,7 +72,7 @@ const CounselorProfileLogic: FunctionComponent<{
     }
 
     return (
-        <CounselorProfileView handleNumberInput={handleNumberInput} defaultPreviewData={defaultPreviewData} serverError={serverError} form={form} onSubmit={handleSubmit} />
+        <CounselorProfileView fileSelectedHandler={fileSelectedHandler} handleNumberInput={handleNumberInput} defaultPreviewData={defaultPreviewData} serverError={serverError} form={form} onSubmit={handleSubmit} />
     )
 }
 

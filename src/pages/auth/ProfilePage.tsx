@@ -60,7 +60,7 @@ const ProfilePage: FunctionComponent = () => {
                 {userContext && <UserProfilePanel loading={loading} setLoading={setLoading}/>}
             </div>
 
-            <div className={`${loading ? 'blur-sm' : ''} max-w-screen-xl mb-96 mt-5 flex flex-wrap w-full w-3/4 mb-10 border-l border-offWhiteOutline shadow-md px-5 py-5 gap-5 overflow-hidden`}>
+            <div className={`${loading ? 'blur-sm' : ''} max-w-screen-xl mt-5 flex flex-wrap w-full w-3/4 mb-10 border-l border-offWhiteOutline shadow-md px-5 py-5 gap-5 overflow-hidden`}>
                 <CounselorProfileApi setSpinner={setLoading} />
             </div>
 
@@ -72,8 +72,6 @@ const ProfilePage: FunctionComponent = () => {
                                            isCreating={isNewCounselor} setLoading={setLoading} loading={loading}/>
                 </div>
             }*/}
-
-
 
             <div className={'fixed top-1/2 left-1/2'}>
                 {loading && <Spinner/>}

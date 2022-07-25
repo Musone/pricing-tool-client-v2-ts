@@ -27,23 +27,30 @@ import PrimaryButton_2 from "../../../components/buttons/PrimaryButton_2";
 
 
 const CounselorProfileView: FunctionComponent<{
+    fileSelectedHandler: (e: ChangeEvent<HTMLInputElement>) => void,
     serverError: ServerError | null,
     form: UseFormReturn<IPutCounselorForm>,
     onSubmit: (data: IPutCounselorForm) => any,
     defaultPreviewData: ICounselor | null,
     handleNumberInput: (form: keyof IPutCounselorForm, val: string) => number | string
-}> = ({form, onSubmit, serverError, defaultPreviewData, handleNumberInput}) => {
+}> = ({fileSelectedHandler, form, onSubmit, serverError, defaultPreviewData, handleNumberInput}) => {
     const {formState, register, handleSubmit} = form;
     const {errors, isSubmitting} = formState;
 
     const [editProfile, setEditProfile] = useState(false);
     const [counselorPreviewData, setCounselorPreviewData] = useState<ICounselor | null>(defaultPreviewData);
-    const [inPersonSynchronizer, setInPersonSynchronizer] = useState<IProvinceAndCity>(
-        form.getValues('in_person') ?? {
-            city: Object.values(PROVINCES_DUMBY_LIST)[0][0],
-            province: Object.keys(PROVINCES_DUMBY_LIST)[0]
+    const [inPersonSynchronizer, setInPersonSynchronizer] = useState<{ checked: boolean, data: IProvinceAndCity }>(
+        {
+            checked: form.getValues('in_person') !== null,
+            data: form.getValues('in_person') ?? {
+                city: Object.values(PROVINCES_DUMBY_LIST)[0][0],
+                province: Object.keys(PROVINCES_DUMBY_LIST)[0]
+            }
         }
     );
+
+    console.log(form.getValues('in_person'))
+
     const [supervisingSynchronizer, setSupervisingSynchronizer] = useState<ISupervisingInfo>(
         {
             minPrice: form.getValues('supervising')?.minPrice ?? 0,
@@ -57,6 +64,26 @@ const CounselorProfileView: FunctionComponent<{
             maxPrice: form.getValues('counselling')?.maxPrice ?? 0,
         }
     );
+
+    useEffect(() => {
+        if (!PROVINCES_DUMBY_LIST[inPersonSynchronizer.data.province as keyof typeof PROVINCES_DUMBY_LIST].includes(inPersonSynchronizer.data.city)) {
+            setInPersonSynchronizer({
+                checked: inPersonSynchronizer.checked,
+                data: {
+                    province: inPersonSynchronizer.data.province,
+                    city: PROVINCES_DUMBY_LIST[inPersonSynchronizer.data.province as keyof typeof PROVINCES_DUMBY_LIST][0],
+                }
+            })
+        }
+    }, [inPersonSynchronizer.data.province])
+
+    useEffect(() => {
+        if (inPersonSynchronizer.checked) {
+            form.setValue('in_person', inPersonSynchronizer.data);
+        } else {
+            form.setValue('in_person', null);
+        }
+    }, [inPersonSynchronizer])
 
     /**
      * Updates
@@ -111,6 +138,12 @@ const CounselorProfileView: FunctionComponent<{
             {editProfile && <>
 
                 <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col w-full gap-7`}>
+
+                    <div className={'flex flex-col'}>
+                        <label htmlFor={'pfp-input'} className={'font-semibold'}>Change Profile
+                            Picture</label>
+                        <input id={'pfp-input'} type={'file'} className={''} onChange={fileSelectedHandler}/>
+                    </div>
 
                     <div className={'flex flex-wrap gap-7'}>
                         <NumberInput label={'Age'}
@@ -188,25 +221,24 @@ const CounselorProfileView: FunctionComponent<{
                                             defaultChecked={form.getValues('in_person') !== null}
                                             label={'In Person'}
                                             setForm={(value: IProvinceAndCity, checked: boolean) => {
-                                                if (checked) {
-                                                    form.setValue('in_person', value);
-                                                    setInPersonSynchronizer(value);
-                                                } else {
-                                                    form.setValue('in_person', null);
-                                                }
+                                                setInPersonSynchronizer({
+                                                    checked: checked,
+                                                    data: value,
+                                                });
                                             }}>
                         <Dropdown noChoose={true}
                                   formKey={"province"}
                                   filterList={Object.keys(PROVINCES_DUMBY_LIST)}
-                                  form={inPersonSynchronizer}
+                                  value={inPersonSynchronizer.data.province}
+                                  form={inPersonSynchronizer.data}
                         />
 
                         <Dropdown
                             noChoose={true}
                             formKey={"city"}
-                            value={PROVINCES_DUMBY_LIST[inPersonSynchronizer.province as keyof typeof PROVINCES_DUMBY_LIST][0]}
-                            filterList={PROVINCES_DUMBY_LIST[inPersonSynchronizer.province as keyof typeof PROVINCES_DUMBY_LIST]}
-                            form={inPersonSynchronizer}
+                            value={inPersonSynchronizer.data.city}
+                            filterList={PROVINCES_DUMBY_LIST[inPersonSynchronizer.data.province as keyof typeof PROVINCES_DUMBY_LIST]}
+                            form={inPersonSynchronizer.data}
                         />
                     </CheckBoxInputContainer>
 
@@ -293,6 +325,13 @@ const CounselorProfileView: FunctionComponent<{
                         </CheckBoxInputContainer>
                     </div>
 
+                    {serverError === 'NOT_RESPONDING' &&
+                        <span className={'ml-1.5 text-xs text-red-600'}>Server not responding. Try again later</span>}
+                    {serverError === 'BAD_REQUEST' &&
+                        <span className={'ml-1.5 text-xs text-red-600'}>Server update validation failed</span>}
+                    {(errors.age || errors.pronouns || errors.gender || errors.supervising || errors.counselling) &&
+                        <span className={'ml-1.5 text-xs text-red-600'}>Some inputs are required</span>
+                    }
                     <div className={'flex flex-wrap'}>
                         <PrimaryButton_1 loading={isSubmitting} text={'Cancel'} callBack={() => setEditProfile(false)}/>
                         <PrimaryButton_2 loading={isSubmitting} text={'Save changes'} type={'submit'}/>

@@ -7,6 +7,7 @@ import React, {
 
 
 const CheckBoxInput: FunctionComponent<{
+    className?: string,
     label: string,
     id: string,
     hideWhenDisabled?: boolean,
@@ -24,7 +25,7 @@ const CheckBoxInput: FunctionComponent<{
           children,
           hideWhenDisabled,
           setForm,
-          register, err
+          register, err, className
       }) => {
     const [checked, setChecked] = useState<boolean>(defaultChecked);
 
@@ -52,7 +53,7 @@ const CheckBoxInput: FunctionComponent<{
 
     return (
         <div
-            className={`bg-offWhite flex flex-col justify-start w-fit h-fit p-5 gap-3 rounded`}>
+            className={`${className ?? ''} bg-offWhite flex flex-col justify-start w-fit h-fit p-5 gap-3 rounded`}>
             <div className={"flex flex-col w-fit items-start"}>
                 <label
                     htmlFor={id}>{typeof label !== 'undefined' ? label : 'In Person Booking'}</label>
