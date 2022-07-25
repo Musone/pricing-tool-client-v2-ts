@@ -1,12 +1,12 @@
 import React, {ChangeEvent, FunctionComponent, ReactElement, useEffect, useState} from 'react';
 import useHttpRequest from "../../hooks/useHttpRequest";
 import LoadingSpinner from "../../components/Spinner";
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../../components/lists/interfaces/ICounselor";
 import DropdownMultiselect from "../../components/dropdowns/DropdownMultiselect";
 import config from "../../config/config";
 import PageWrapper from "../../components/PageWrapper";
 import {APPROACH_DUMBY_LIST, GENDER_DUMBY_LIST, LANG_DUMBY_LIST, SPECS_DUMBY_LIST} from "../../constants/Constants";
-import IProvinceAndCity from "../../interfaces/IProvinceAndCity";
+import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
 import RegularList from "../../components/lists/RegularList";
@@ -87,7 +87,7 @@ const FindACounselorPage: FunctionComponent<{
         let isFirst = true;
 
         Object.entries(queryParams).forEach(([key, value]) => {
-            if (value === null) return;
+            if (value === null || value.length < 1) return;
 
             if (isFirst) isFirst = false;
             else temp += '&';
@@ -153,19 +153,19 @@ const FindACounselorPage: FunctionComponent<{
 
                 <div
                     className={'my-10 flex flex-wrap w-3/4 h-auto gap-5 lg:gap-10 lg:flex-nowrap lg:flex-row xl:max-w-screen-2xl'}>
-                    <DropdownMultiselect idProp={'genderFilterButton'} filterLabel={'gender'}
+                    <DropdownMultiselect idProp={'genderFilterButton'} formKey={'gender'}
                                          filtersList={GENDER_DUMBY_LIST}
-                                         parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'specializationsFilterButton'} filterLabel={'specializations'}
-                                         filtersList={SPECS_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'approachFilterButton'} filterLabel={'approach'}
-                                         filtersList={APPROACH_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'languagesFilterButton'} filterLabel={'languages'}
-                                         filtersList={LANG_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
+                                         form={queryParams}
+                                         setForm={setQueryParams}/>
+                    <DropdownMultiselect idProp={'specializationsFilterButton'} formKey={'specializations'}
+                                         filtersList={SPECS_DUMBY_LIST} form={queryParams}
+                                         setForm={setQueryParams}/>
+                    <DropdownMultiselect idProp={'approachFilterButton'} formKey={'approach'}
+                                         filtersList={APPROACH_DUMBY_LIST} form={queryParams}
+                                         setForm={setQueryParams}/>
+                    <DropdownMultiselect idProp={'languagesFilterButton'} formKey={'languages'}
+                                         filtersList={LANG_DUMBY_LIST} form={queryParams}
+                                         setForm={setQueryParams}/>
                 </div>
 
                 <div className={'w-3/4 max-w-screen-2xl mb-5 -mt-5'}>

@@ -1,5 +1,5 @@
 import React, {Dispatch, FunctionComponent, SetStateAction, useContext} from "react";
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../lists/interfaces/ICounselor";
 import config from "../../config/config";
 import capitalize from "../../utils/capitalize";
 import Tag from "../Tag";

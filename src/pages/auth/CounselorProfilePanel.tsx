@@ -1,13 +1,13 @@
 import React, {ChangeEvent, FormEvent, FunctionComponent, useContext, useEffect, useState} from "react";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../../components/lists/interfaces/ICounselor";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 import config from "../../config/config";
 import CounselorCardItem from "../../components/counselorCard/CounselorCardItem";
 import DropdownMultiselect from "../../components/dropdowns/DropdownMultiselect";
 import Dropdown from "../../components/dropdowns/Dropdown";
-import ISupervisingInfo from "../../interfaces/ISupervisingInfo";
-import ICounsellingInfo from "../../interfaces/ICounsellingInfo";
+import ISupervisingInfo from "../../components/lists/interfaces/ISupervisingInfo";
+import ICounsellingInfo from "../../components/lists/interfaces/ICounsellingInfo";
 import {
     APPROACH_DUMBY_LIST,
     CREDS_DUMBY_LIST,
@@ -16,10 +16,11 @@ import {
     PRONOUN_DUMBY_LIST,
     SPECS_DUMBY_LIST
 } from "../../constants/Constants";
-import IProvinceAndCity from "../../interfaces/IProvinceAndCity";
+import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
 import UserContext from "../../contexts/UserContext";
+import {COUNSELOR_URL} from "../../constants/urls";
 
 interface CounselorPutForm {
     age: null | number;
@@ -53,27 +54,26 @@ interface CounselorPutForm {
 }
 
 
-const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo?: ICounselor, isCreating: boolean, setLoading: CallableFunction }>
-    = ({counselorInfo, isCreating, setLoading, loading}) => {
+const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCounselorProfile?: ICounselor, isCreating: boolean, setLoading: CallableFunction }>
+    = ({currentUserCounselorProfile, isCreating, setLoading, loading}) => {
     const [form, setForm] = useState<CounselorPutForm>({
-        gender: counselorInfo ? counselorInfo.gender : null,
-        age: counselorInfo ? counselorInfo.age : null,
-        pronouns: counselorInfo ? counselorInfo.pronouns : null,
-        counselling: counselorInfo ? counselorInfo.counselling : null,
-        descriptionLong: counselorInfo ? counselorInfo.descriptionLong : null,
-        languages: counselorInfo ? counselorInfo.languages : null,
-        specializations: counselorInfo ? counselorInfo.specializations : null,
-        approach: counselorInfo ? counselorInfo.approach : null,
-        credentials: counselorInfo ? counselorInfo.credentials : null,
-        pfp: counselorInfo ? counselorInfo.pfp : null,
-        approachDesc: counselorInfo ? counselorInfo.approachDesc : null,
-        introduction: counselorInfo ? counselorInfo.introduction : null,
-        janeId: counselorInfo ? counselorInfo.janeId : null,
-        in_person: counselorInfo ? counselorInfo.in_person : null,
-        supervising: counselorInfo ? counselorInfo.supervising : null,
+        age: currentUserCounselorProfile ? currentUserCounselorProfile.age : null,
+        janeId: currentUserCounselorProfile ? currentUserCounselorProfile.janeId : null,
+        gender: currentUserCounselorProfile ? currentUserCounselorProfile.gender : null,
+        pronouns: currentUserCounselorProfile ? currentUserCounselorProfile.pronouns : null,
+        languages: currentUserCounselorProfile ? currentUserCounselorProfile.languages : null,
+        specializations: currentUserCounselorProfile ? currentUserCounselorProfile.specializations : null,
+        approach: currentUserCounselorProfile ? currentUserCounselorProfile.approach : null,
+        approachDesc: currentUserCounselorProfile ? currentUserCounselorProfile.approachDesc : null,
+        credentials: currentUserCounselorProfile ? currentUserCounselorProfile.credentials : null,
+        pfp: currentUserCounselorProfile ? currentUserCounselorProfile.pfp : null,
+        descriptionLong: currentUserCounselorProfile ? currentUserCounselorProfile.descriptionLong : null,
+        introduction: currentUserCounselorProfile ? currentUserCounselorProfile.introduction : null,
+        in_person: currentUserCounselorProfile ? currentUserCounselorProfile.in_person : null,
+        counselling: currentUserCounselorProfile ? currentUserCounselorProfile.counselling : null,
+        supervising: currentUserCounselorProfile ? currentUserCounselorProfile.supervising : null,
     });
     const [error, setError] = useState<'SERVER_ERROR' | 'REQUIRED_ERROR' | null>(null);
-    const [trigger, setTrigger] = useState<boolean>(false);
 
     const [counselling, setCounselling] = useState<{ checked: boolean, data: ICounsellingInfo }>({
         checked: false,
@@ -121,40 +121,40 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
 
     useEffect(() => {
 
-        if (typeof counselorInfo !== 'undefined' && counselorInfo !== null) {
-            Object.entries(counselorInfo).forEach(([k, v]) => {
+        if (typeof currentUserCounselorProfile !== 'undefined' && currentUserCounselorProfile !== null) {
+            Object.entries(currentUserCounselorProfile).forEach(([k, v]) => {
                 if (Object.keys(form).includes(k)) {
                     const key = k as keyof CounselorPutForm;
                     form[key] = v as never;
                 }
             })
 
-            if (counselorInfo.counselling !== null) {
+            if (currentUserCounselorProfile.counselling !== null) {
                 setCounselling({
                     checked: true,
-                    data: counselorInfo.counselling
+                    data: currentUserCounselorProfile.counselling
                 });
             }
 
-            if (counselorInfo.supervising !== null) {
+            if (currentUserCounselorProfile.supervising !== null) {
                 setSupervising({
                     checked: true,
-                    data: counselorInfo.supervising,
+                    data: currentUserCounselorProfile.supervising,
                 });
             }
 
-            if (counselorInfo.in_person !== null) {
+            if (currentUserCounselorProfile.in_person !== null) {
                 setInPerson({
                     checked: true,
-                    data: counselorInfo.in_person,
+                    data: currentUserCounselorProfile.in_person,
                 });
             }
 
-            setCounselorPreviewData(counselorInfo);
+            setCounselorPreviewData(currentUserCounselorProfile);
         }
 
 
-    }, [counselorInfo])
+    }, [currentUserCounselorProfile])
 
     useEffect(() => {
 
@@ -242,7 +242,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                     body[key] = v;
                 }
             } else {
-                if (form[key] !== null && counselorInfo && form[key] !== counselorInfo[key]) {
+                if (form[key] !== null && currentUserCounselorProfile && form[key] !== currentUserCounselorProfile[key]) {
                     body[key] = v;
                 }
             }
@@ -252,12 +252,8 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
         body.counselling = form.counselling;
         body.in_person = form.in_person;
 
-        // console.log({body})
-        // setLoading(false);
-        // return;
-
         let lastRes: Response | undefined = undefined;
-        fetch(`${config.serverUrl}/api/counselors/${userContext?._id}`, {
+        fetch(`${COUNSELOR_URL}/${userContext?._id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -358,52 +354,52 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, counselorInfo
                                 <div>
                                     <label className={'font-semibold focus:outline-0'}>Pronouns<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
-                                    <Dropdown filterList={PRONOUN_DUMBY_LIST} filterLabel={'pronouns'}
-                                              parentQuery={form} setParentQuery={setForm} trigger={trigger}/>
+                                    <Dropdown filterList={PRONOUN_DUMBY_LIST} formKey={'pronouns'}
+                                              form={form} setForm={setForm} />
                                 </div>
 
                                 <div>
                                     <label className={'font-semibold focus:outline-0'}>Gender<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
-                                    <Dropdown filterList={GENDER_DUMBY_LIST} filterLabel={'gender'}
-                                              parentQuery={form} setParentQuery={setForm} trigger={trigger}/>
+                                    <Dropdown filterList={GENDER_DUMBY_LIST} formKey={'gender'}
+                                              form={form} setForm={setForm} />
                                 </div>
                             </div>
 
                             <div className={'flex flex-wrap w-full gap-7'}>
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Specializations</label>
-                                    <DropdownMultiselect filterLabel={'specializations'}
-                                                         filtersList={SPECS_DUMBY_LIST} parentQuery={form}
-                                                         setParentQuery={setForm}
-                                                         trigger={trigger}/>
+                                    <DropdownMultiselect formKey={'specializations'}
+                                                         filtersList={SPECS_DUMBY_LIST} form={form}
+                                                         setForm={setForm}
+                                                         />
                                 </div>
 
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Credentials</label>
-                                    <DropdownMultiselect filterLabel={'credentials'}
-                                                         filtersList={CREDS_DUMBY_LIST} parentQuery={form}
-                                                         setParentQuery={setForm}
-                                                         trigger={trigger}/>
+                                    <DropdownMultiselect formKey={'credentials'}
+                                                         filtersList={CREDS_DUMBY_LIST} form={form}
+                                                         setForm={setForm}
+                                                         />
                                 </div>
 
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Languages</label>
-                                    <DropdownMultiselect filterLabel={'languages'}
+                                    <DropdownMultiselect formKey={'languages'}
                                                          filtersList={LANG_DUMBY_LIST}
-                                                         parentQuery={form}
-                                                         setParentQuery={setForm}
-                                                         trigger={trigger}
+                                                         form={form}
+                                                         setForm={setForm}
+
                                     />
                                 </div>
 
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Approach</label>
-                                    <DropdownMultiselect filterLabel={'approach'}
+                                    <DropdownMultiselect formKey={'approach'}
                                                          filtersList={APPROACH_DUMBY_LIST}
-                                                         parentQuery={form}
-                                                         setParentQuery={setForm}
-                                                         trigger={trigger}
+                                                         form={form}
+                                                         setForm={setForm}
+
                                     />
                                 </div>
                             </div>

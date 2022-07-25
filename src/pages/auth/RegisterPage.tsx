@@ -1,6 +1,7 @@
-import React, {Component, FormEvent, ReactElement, useState} from 'react';
+import React, { FormEvent, ReactElement, useState} from 'react';
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
-import {emailSchema, isEmailValid, isPasswordValid, login, passwordSchema, REGISTRATION_URL} from "../../utils/auth";
+import {REGISTRATION_URL} from '../../constants/urls';
+import { isEmailValid, isPasswordValid, login, passwordSchema} from '../../utils/auth';
 import Spinner from "../../components/Spinner";
 import {emailVerificationPageRoute} from "../../constants/generalRoutes";
 import PageWrapper from "../../components/PageWrapper";

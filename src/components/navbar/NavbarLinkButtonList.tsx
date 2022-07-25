@@ -5,12 +5,12 @@ import NavLinkButton from "./NavLinkButton";
 import {NavLink} from "react-router-dom";
 import ProfileNavLinkButton from "./ProfileNavLinkButton";
 
-const NavbarLinkButtonList: FunctionComponent<{ classProp?: string }> = ({classProp}): ReactElement => {
+const NavbarLinkButtonList: FunctionComponent<{ className?: string }> = ({className}): ReactElement => {
     const [userContext, setUserContext] = useContext(UserContext);
-    const defaultButtonStyle: string = "text-xs xl:font-medium  font-semibold xl:text-base rounded-full p-4 transition duration-1000 hover:bg-neutral-400/60 text-neutral-800";
+    const defaultButtonStyle: string = "whitespace-nowrap text-xs xl:font-medium  font-semibold xl:text-base rounded-full p-4 transition duration-1000 hover:bg-neutral-400/60 text-neutral-800";
 
     return (
-        <ul tabIndex={0} className={`${classProp || ''} gap-x-5 gap-y-10 grow`}>
+        <ul tabIndex={0} className={`${className || ''} gap-x-5 gap-y-10 grow`}>
             {generalRoutes.map((route: IRoute, i: number) => {
                 return (
                     <li key={i}>

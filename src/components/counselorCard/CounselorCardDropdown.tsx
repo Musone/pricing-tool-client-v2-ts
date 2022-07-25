@@ -2,7 +2,7 @@ import React, {Dispatch, FunctionComponent, ReactElement, SetStateAction, useEff
 import capitalize from "../../utils/capitalize";
 import PrimaryButton_1 from "../buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../buttons/PrimaryButton_2";
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../lists/interfaces/ICounselor";
 
 const CounselorCardDropdown: FunctionComponent<{ counselor: ICounselor, toggleTriggerState: [any, Dispatch<SetStateAction<any>>] }>
     = ({counselor, toggleTriggerState: [toggleTrigger, setToggleTrigger]}): ReactElement => {

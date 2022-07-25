@@ -1,5 +1,5 @@
 import React, {FunctionComponent, ReactElement} from 'react';
-import CounselorItem from "../../interfaces/ICounselor";
+import CounselorItem from "./interfaces/ICounselor";
 
 const RegularList: FunctionComponent<{ itemList: CounselorItem[], resourceName: 'counselor', itemComponent: FunctionComponent<any>/*, counsellingProp: boolean, supervisingProp: boolean*/ }>
     = ({itemList, resourceName, itemComponent: ItemComponent/*, counsellingProp, supervisingProp*/}): ReactElement => {

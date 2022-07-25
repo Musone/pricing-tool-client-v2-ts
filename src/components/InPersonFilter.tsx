@@ -1,4 +1,4 @@
-import IProvinceAndCity from "../interfaces/IProvinceAndCity";
+import IProvinceAndCity from "./lists/interfaces/IProvinceAndCity";
 import Dropdown from "./dropdowns/Dropdown";
 import PROVINCES_DUMBY_LIST from "../constants/Provinces";
 import React from "react";
@@ -32,10 +32,10 @@ export default function InPersonFilters(props: {
                     <div className={""}>
                         <Dropdown noChoose={true}
                                   disabled={!props.inPerson.checked}
-                                  filterLabel={"province"}
+                                  formKey={"province"}
                                   filterList={Object.keys(PROVINCES_DUMBY_LIST)}
-                                  parentQuery={props.inPerson.data}
-                                  setParentQuery={props.parentQuery}/>
+                                  form={props.inPerson.data}
+                                  setForm={props.parentQuery}/>
                     </div>
                 </div>
 
@@ -47,10 +47,10 @@ export default function InPersonFilters(props: {
                             noChoose={true}
                             value={props.inPerson.data.city}
                             disabled={!props.inPerson.checked}
-                            filterLabel={"city"}
+                            formKey={"city"}
                             filterList={PROVINCES_DUMBY_LIST[props.inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST]}
-                            parentQuery={props.inPerson.data}
-                            setParentQuery={props.parentQuery1}/>
+                            form={props.inPerson.data}
+                            setForm={props.parentQuery1}/>
                     </div>
                 </div>
             </div>

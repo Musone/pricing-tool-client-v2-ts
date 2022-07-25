@@ -2,11 +2,10 @@ import React, {FormEvent, FunctionComponent, useContext, useEffect, useState} fr
 import capitalize from "../../utils/capitalize";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
-import {UserObj} from "../../App";
-import {isEmailValid, isPasswordValid, refreshAccessToken} from "../../utils/auth";
+import {isEmailValid, isPasswordValid} from "../../utils/auth";
 import config from "../../config/config";
-import Spinner from "../../components/Spinner";
 import UserContext from "../../contexts/UserContext";
+import IUserObj from "../../components/lists/interfaces/IUserObj";
 
 
 const UserProfilePanel: FunctionComponent<{loading:boolean, setLoading: CallableFunction}> = ({setLoading, loading}) => {
@@ -29,11 +28,7 @@ const UserProfilePanel: FunctionComponent<{loading:boolean, setLoading: Callable
     const [newPassword, setNewPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-    useEffect(() => {
-        console.log(lastName);
-    }, [lastName])
-
-    function isChanging(k: keyof UserObj, v: string) {
+    function isChanging(k: keyof IUserObj, v: string) {
         return userContext !== null && userContext[k] !== v;
     }
 

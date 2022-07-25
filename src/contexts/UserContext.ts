@@ -1,6 +1,6 @@
 import {createContext, Dispatch, SetStateAction} from "react";
-import {UserObj} from "../App";
+import IUserObj from "../components/lists/interfaces/IUserObj";
 
-const UserContext = createContext<[UserObj | null, Dispatch<SetStateAction<UserObj | null>> | null]>([null, null]);
+const UserContext = createContext<[IUserObj | null, Dispatch<SetStateAction<IUserObj | null>> | null]>([null, null]);
 
 export default UserContext;

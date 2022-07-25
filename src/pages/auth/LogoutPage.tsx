@@ -1,7 +1,8 @@
 import {FunctionComponent, ReactElement, useEffect} from "react";
 import PageWrapper from "../../components/PageWrapper";
 import config from "../../config/config";
-import {LOGOUT_URL, REFRESH_URL} from "../../utils/auth";
+import {LOGOUT_URL} from "../../constants/urls";
+
 
 
 const LogoutPage: FunctionComponent = (): ReactElement => {
