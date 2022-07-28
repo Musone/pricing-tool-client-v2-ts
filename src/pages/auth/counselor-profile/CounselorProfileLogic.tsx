@@ -46,6 +46,8 @@ const CounselorProfileLogic: FunctionComponent<{
     const handleSubmit = async (data: IPutCounselorForm) => {
         setServerError(null);
 
+        // console.log({data})
+
         await onSubmit(data)
             .then((res) => {
                 if (res.status === 200) {

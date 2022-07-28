@@ -2,7 +2,7 @@ import config from "../config/config";
 import {Dispatch, SetStateAction} from "react";
 import {string} from "zod";
 import IUserObj from "../components/lists/interfaces/IUserObj";
-import {LOGIN_URL, REFRESH_URL, USER_ME_URL} from "../constants/urls";
+import {LOGIN_URL, LOGOUT_URL, REFRESH_URL, USER_ME_URL} from "../constants/urls";
 
 const {
     localStorageAccessTokenKey,
@@ -167,3 +167,35 @@ const fetchUserInfoHelper = async (accessToken: string, setUserContext: Dispatch
         })
 }
 
+export const logout = (redirect: string) => {
+    const refreshToken = localStorage.getItem(localStorageRefreshTokenKey);
+    const clearAndRefresh = () => {
+        localStorage.removeItem(localStorageRefreshTokenKey);
+        localStorage.removeItem(localStorageAccessTokenKey);
+        location.assign(redirect);
+    }
+
+    if (refreshToken === null) {
+        clearAndRefresh();
+        return;
+    }
+
+    return fetch(LOGOUT_URL, {
+        method: 'POST',
+        headers: {
+            'x-refresh': refreshToken
+        }
+    })
+        .then((res) => {
+            // console.log('logout status',res.status)
+            if (res.status !== 200) {
+                throw new Error('Logout status not 200...');
+            }
+
+            clearAndRefresh();
+            return;
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+}

@@ -107,7 +107,6 @@ const FindACounselorPage: FunctionComponent<{
         // console.debug({ajaxUrl})
     }, [queryParams]);
 
-
     function handleSliderOnChange(e: ChangeEvent<HTMLInputElement>) {
         let temp: QueryParamObj = {...queryParams};
         const newPrice: number = parseInt(e.target.value);

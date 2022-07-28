@@ -10,7 +10,7 @@ import UserContext from "../../contexts/UserContext";
 import CounselorProfileApi from "./counselor-profile/CounselorProfileApi";
 
 
-const ProfilePage: FunctionComponent = () => {
+const ProfilePage: FunctionComponent<{counselorId?: string}> = ({counselorId}) => {
     const [userContext, setUserContext] = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [currentUserCounselorProfile, setCurrentUserCounselorProfile] = useState<ICounselor | null>(null);
@@ -60,9 +60,11 @@ const ProfilePage: FunctionComponent = () => {
                 {userContext && <UserProfilePanel loading={loading} setLoading={setLoading}/>}
             </div>
 
+            {userContext?.roles.includes('counselor') &&
             <div className={`${loading ? 'blur-sm' : ''} max-w-screen-xl mt-5 flex flex-wrap w-full w-3/4 mb-10 border-l border-offWhiteOutline shadow-md px-5 py-5 gap-5 overflow-hidden`}>
-                <CounselorProfileApi setSpinner={setLoading} />
+                <CounselorProfileApi setSpinner={setLoading} counselorId={counselorId}/>
             </div>
+            }
 
             {/*{userContext && (currentUserCounselorProfile || isNewCounselor) &&
                 <div

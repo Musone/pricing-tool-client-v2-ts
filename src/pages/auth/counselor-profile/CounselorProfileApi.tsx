@@ -1,16 +1,26 @@
 import useHttpRequest from "../../../hooks/useHttpRequest";
 import {COUNSELOR_ME_URL, COUNSELOR_URL} from "../../../constants/urls";
 import config from "../../../config/config";
-import {FunctionComponent, useContext} from "react";
+import {FunctionComponent, useContext, useEffect, useState} from "react";
 import UserContext from "../../../contexts/UserContext";
 import CounselorProfileLogic from "./CounselorProfileLogic";
 import {IPutCounselorForm} from "./PutCounselorFormSchema";
 import Spinner from "../../../components/Spinner";
 
-const CounselorProfileApi: FunctionComponent<{setSpinner: (isLoading: boolean) => void}> = ({setSpinner}) => {
+const CounselorProfileApi: FunctionComponent<{
+    setSpinner: (isLoading: boolean) => void, counselorId?: string
+}> = ({
+          setSpinner,
+          counselorId
+      }) => {
     const accessToken = localStorage.getItem(config.localStorageAccessTokenKey);
     const [userContext, setUserContext] = useContext(UserContext);
-    const {isLoading, data, isError, res} = useHttpRequest(COUNSELOR_ME_URL, {
+    const {
+        isLoading,
+        data,
+        isError,
+        res
+    } = useHttpRequest(counselorId ? `${COUNSELOR_URL}/${counselorId}` : COUNSELOR_ME_URL, {
         headers: {
             authorization: accessToken ?? '',
             'Accept': 'application/json',
@@ -20,21 +30,31 @@ const CounselorProfileApi: FunctionComponent<{setSpinner: (isLoading: boolean) =
 
     const handleSubmit = async (submitData: IPutCounselorForm) => {
         const body: Partial<IPutCounselorForm> = {};
+        // console.log({submitData})
+        let dataCopy: any = {}
 
-        Object.entries(submitData).forEach(([k, v]) => {
-            let key = k as keyof IPutCounselorForm;
+        if (data !== null) {
+            dataCopy = data;
+        }
 
-            if (submitData[key] !== data[key]) {
-                body[key] = v as never;
-            }
-        })
+        try {
+            Object.entries(submitData).forEach(([k, v]) => {
+                let key = k as keyof IPutCounselorForm;
 
+                if (submitData[key] !== dataCopy[key]) {
+                    body[key] = v as never;
+                }
+            })
+        } catch (e) {
+            console.error(e)
+        }
+
+        console.log({body})
         if (typeof submitData.janeId === 'string') {
             body.janeId = null;
         }
-        console.log({body})
 
-        return fetch(`${COUNSELOR_URL}/${userContext?._id}`, {
+        return fetch(`${COUNSELOR_URL}/${counselorId ?? userContext?._id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -46,16 +66,18 @@ const CounselorProfileApi: FunctionComponent<{setSpinner: (isLoading: boolean) =
     }
 
     if (isLoading) return <div className={'flex justify-center w-full'}><Spinner/></div>
+    if (!data && res?.status !== 404) return <></>
+
 
     const defaultValues: IPutCounselorForm = {
         age: data?.age ?? '',
-        gender: data?.gender ?? '',
-        pronouns: data?.pronouns ?? [],
+        gender: data?.gender ?? null,
+        pronouns: data?.pronouns ?? null,
         languages: data?.languages ?? [],
         specializations: data?.specializations ?? [],
         approach: data?.approach ?? [],
         credentials: data?.credentials ?? [],
-        pfp: data?.pfp ?? null,
+        pfp: data?.pfp ?? undefined,
         approachDesc: data?.approachDesc ?? '',
         descriptionLong: data?.descriptionLong ?? '',
         introduction: data?.introduction ?? '',
@@ -66,7 +88,8 @@ const CounselorProfileApi: FunctionComponent<{setSpinner: (isLoading: boolean) =
     }
 
     return (
-        <CounselorProfileLogic setSpinner={setSpinner} defaultPreviewData={data} defaultValues={defaultValues} onSubmit={handleSubmit}/>
+        <CounselorProfileLogic setSpinner={setSpinner} defaultPreviewData={data} defaultValues={defaultValues}
+                               onSubmit={handleSubmit}/>
     )
 }
 

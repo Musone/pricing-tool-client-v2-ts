@@ -13,6 +13,10 @@ import ProfilePage from "../pages/auth/ProfilePage";
 import EmailVerificationPage from "../pages/auth/EmailVerificationPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import LogoutPage from "../pages/auth/LogoutPage";
+import AdminHomePage from "../pages/admin/AdminHomePage";
+import loginPage from "../pages/auth/LoginPage";
+import AdminViewUsersPage from "../pages/admin/views/users-view/AdminViewUsersPage";
+import UserProfilePage from "../pages/admin/views/users-view/UserProfilePage";
 
 export interface IRoute {
     path: string,
@@ -21,6 +25,76 @@ export interface IRoute {
     name: string,
     protected: boolean
 }
+
+export const adminLoginPageRoute: IRoute = {
+    path: '/admin/login',
+    component: loginPage,
+    class: '',
+    name: 'admin login',
+    protected: false
+}
+
+export const adminPageRoute: IRoute = {
+    path: '/admin',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin home',
+    protected: false
+}
+
+export const adminViewUsersRoute: IRoute = {
+    path: '/admin/users',
+    component: AdminViewUsersPage,
+    class: '',
+    name: 'admin view users',
+    protected: false
+}
+
+export const adminViewUserProfileRoute: IRoute = {
+    path: '/admin/users/:id',
+    component: UserProfilePage,
+    class: '',
+    name: 'admin view users',
+    protected: false
+}
+
+/*
+export const adminSpecsRoute: IRoute = {
+    path: '/admin/specializations',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin specs',
+    protected: false
+}
+
+export const adminApproachesRoute: IRoute = {
+    path: '/admin/approaches',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin specs',
+    protected: false
+}
+
+export const adminCredsRoute: IRoute = {
+    path: '/admin/credentials',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin creds',
+    protected: false
+}
+
+export const adminGeolocation: IRoute = {
+    path: '/admin/geolocation',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin provinces and cities',
+    protected: false
+}
+*/
+
+
+
+
 
 export const emailVerificationPageRoute: IRoute = {
     path: '/auth/verify',

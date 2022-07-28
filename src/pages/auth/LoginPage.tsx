@@ -1,7 +1,7 @@
 import React, {
     Component,
     Dispatch,
-    FormEvent,
+    FormEvent, FunctionComponent,
     ReactElement,
     SetStateAction,
     useContext,
@@ -20,7 +20,7 @@ import {forgotPasswordPageRoute} from "../../constants/generalRoutes";
  * @constructor
  */
 
-const LoginPage = (): ReactElement => {
+const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): ReactElement => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -62,7 +62,7 @@ const LoginPage = (): ReactElement => {
         login(email, password, resChain)
             .then(() => {
                 // return fetchUserInfo([userContext, setUserContext]);
-                location.assign('/booking/hero');
+                location.assign(redirectPath ?? '/booking/hero');
             })
             .catch((e) => {
                 if (resChain.length < 1) {

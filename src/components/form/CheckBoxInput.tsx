@@ -28,6 +28,7 @@ const CheckBoxInput: FunctionComponent<{
           register, err, className
       }) => {
     const [checked, setChecked] = useState<boolean>(defaultChecked);
+    const childrenTranformed = Array.isArray(children) ? children : [children];
 
     const handleChange = () => {
         setChecked(!checked);
@@ -67,9 +68,7 @@ const CheckBoxInput: FunctionComponent<{
             <div
                 className={`${hideWhenDisabled ? `${checked ? 'visible' : 'hidden'}` : ''} flex flex-wrap gap-4 p-3 border-2 rounded ${checked ? "" : "bg-offWhite brightness-75 disabled"}`}>
 
-
-                {Array.isArray(children) ? children.map((child, i) => cloneElement(child, {key: i, ...childrenProps})) : children}
-
+                {childrenTranformed.map((child, i) => cloneElement(child, {key: i, ...childrenProps}))}
 
             </div>
             {err && <span className={'ml-1.5 text-xs text-red-600'}>{err.message}</span>}

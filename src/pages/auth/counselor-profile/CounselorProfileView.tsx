@@ -37,6 +37,7 @@ const CounselorProfileView: FunctionComponent<{
     const {formState, register, handleSubmit} = form;
     const {errors, isSubmitting} = formState;
 
+    const [hotFix, setHotFix] = useState<any>(0)
     const [editProfile, setEditProfile] = useState(false);
     const [counselorPreviewData, setCounselorPreviewData] = useState<ICounselor | null>(defaultPreviewData);
     const [inPersonSynchronizer, setInPersonSynchronizer] = useState<{ checked: boolean, data: IProvinceAndCity }>(
@@ -49,7 +50,7 @@ const CounselorProfileView: FunctionComponent<{
         }
     );
 
-    console.log(form.getValues('in_person'))
+
 
     const [supervisingSynchronizer, setSupervisingSynchronizer] = useState<ISupervisingInfo>(
         {
@@ -118,6 +119,11 @@ const CounselorProfileView: FunctionComponent<{
     form.watch(() => {
         // console.log({form: form.getValues()})
         syncFormWithPreview(form.getValues());
+
+        // The stupid form.getValues() doesn't update until some other state gets updated. Changing the hotfix state forces the form to update and resolves the issue.
+        // I don't know why this happens, but blame react-hook-form. I think the library is trying to minimize the # of rerenders, and so the page doesn't update if only the form is changed.
+        // I think using the hotfix forces the page to rerender, thereby updating the form with it.
+        setHotFix(hotFix + 1);
     });
 
     return (
@@ -166,16 +172,16 @@ const CounselorProfileView: FunctionComponent<{
                     </div>
 
                     <div className={'flex flex-wrap w-full gap-7'}>
-                        <Dropdown filterList={PRONOUN_DUMBY_LIST} formKey={'pronouns'}
-                                  form={form.getValues()}
-                                  setForm={(formCopy: IPutCounselorForm) => form.setValue('pronouns', formCopy.pronouns)}
-                                  err={errors.pronouns}
-                        />
-
                         <Dropdown filterList={GENDER_DUMBY_LIST} formKey={'gender'}
                                   form={form.getValues()}
                                   setForm={(formCopy: IPutCounselorForm) => form.setValue('gender', formCopy.gender)}
                                   err={errors.gender}
+                        />
+
+                        <Dropdown filterList={PRONOUN_DUMBY_LIST} formKey={'pronouns'}
+                                  form={form.getValues()}
+                                  setForm={(formCopy: IPutCounselorForm) => form.setValue('pronouns', formCopy.pronouns)}
+                                  err={errors.pronouns}
                         />
                     </div>
 
@@ -332,6 +338,9 @@ const CounselorProfileView: FunctionComponent<{
                     {(errors.age || errors.pronouns || errors.gender || errors.supervising || errors.counselling) &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Some inputs are required</span>
                     }
+                    {/*{(errors.) &&*/}
+                    {/*    <span className={'ml-1.5 text-xs text-red-600'}>Some error occured</span>*/}
+                    {/*}*/}
                     <div className={'flex flex-wrap'}>
                         <PrimaryButton_1 loading={isSubmitting} text={'Cancel'} callBack={() => setEditProfile(false)}/>
                         <PrimaryButton_2 loading={isSubmitting} text={'Save changes'} type={'submit'}/>
