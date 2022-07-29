@@ -5,7 +5,7 @@ import ICounselor from "../../components/lists/interfaces/ICounselor";
 import DropdownMultiselect from "../../components/dropdowns/DropdownMultiselect";
 import config from "../../config/config";
 import PageWrapper from "../../components/PageWrapper";
-import {APPROACH_DUMBY_LIST, GENDER_DUMBY_LIST, LANG_DUMBY_LIST, SPECS_DUMBY_LIST} from "../../constants/Constants";
+import {APPROACH_LIST, GENDER_LIST, LANG_LIST, SPECS_LIST} from "../../hooks/useGetFilters";
 import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
@@ -155,17 +155,17 @@ const FindACounselorPage: FunctionComponent<{
                     <div
                         className={'my-10 self-start w-full md:w-[625px] flex flex-wrap h-auto gap-5 2xl:gap-10 xl:flex-nowrap'}>
                         <DropdownMultiselect idProp={'genderFilterButton'} formKey={'gender'}
-                                             filtersList={GENDER_DUMBY_LIST}
+                                             filtersList={GENDER_LIST}
                                              form={queryParams}
                                              setForm={setQueryParams}/>
                         <DropdownMultiselect idProp={'specializationsFilterButton'} formKey={'specializations'}
-                                             filtersList={SPECS_DUMBY_LIST} form={queryParams}
+                                             filtersList={SPECS_LIST} form={queryParams}
                                              setForm={setQueryParams}/>
                         <DropdownMultiselect idProp={'approachFilterButton'} formKey={'approach'}
-                                             filtersList={APPROACH_DUMBY_LIST} form={queryParams}
+                                             filtersList={APPROACH_LIST} form={queryParams}
                                              setForm={setQueryParams}/>
                         <DropdownMultiselect idProp={'languagesFilterButton'} formKey={'languages'}
-                                             filtersList={LANG_DUMBY_LIST} form={queryParams}
+                                             filtersList={LANG_LIST} form={queryParams}
                                              setForm={setQueryParams}/>
                     </div>
                 </div>

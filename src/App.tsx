@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from 'react'
 import {Link, Route, Routes, useLocation} from 'react-router-dom'
 import {
     actionRoutes, adminLoginPageRoute, adminPageRoute, adminViewUserProfileRoute, adminViewUsersRoute,
-    bookingRoutes,
+    bookingRoutes, editApproachesRoute, editCredsRoute, editLanguagesRoute, editSpecsRoute,
     emailVerificationPageRoute,
     findACounselorRoute,
     forgotPasswordPageRoute,
@@ -22,6 +22,7 @@ import RequireAdminWrapper from "./pages/admin/RequireAdminWrapper";
 import LoginPage from "./pages/auth/LoginPage";
 import PrimaryButton_2 from "./components/buttons/PrimaryButton_2";
 import PrimaryButton_1 from "./components/buttons/PrimaryButton_1";
+import useGetFilters, {APPROACH_LIST, CREDS_LIST, LANG_LIST, SPECS_LIST} from "./hooks/useGetFilters";
 
 
 const App = (): ReactElement => {
@@ -29,6 +30,12 @@ const App = (): ReactElement => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const location = useLocation();
     const [isOnAdminPage, setIsOnAdminPage] = useState<boolean>(location.pathname.includes(adminPageRoute.path));
+    const {
+        isWaitingForFilters,
+        isError,
+        data,
+        res,
+    } = useGetFilters();
 
     /**
      * If the user context has not been set, the app will check if an accessToken/refreshToken is available in localStorage,
@@ -50,7 +57,7 @@ const App = (): ReactElement => {
     return (
         <UserContext.Provider value={[userContext, setUserContext]}>
             {!isOnAdminPage && <NavbarContainer/>}
-            {!isLoading &&
+            {!isLoading && !isWaitingForFilters &&
                 <Routes>
                     {generalRoutes.map((route: IRoute, index: number) => (
                         <Route key={index} path={route.path} element={<route.component/>}/>
@@ -84,6 +91,19 @@ const App = (): ReactElement => {
                            element={(<RequireAdminWrapper children={<adminViewUsersRoute.component/>}/>)}/>
                     <Route path={adminViewUserProfileRoute.path}
                            element={(<RequireAdminWrapper children={<adminViewUserProfileRoute.component/>}/>)}/>
+
+                    <Route path={editSpecsRoute.path}
+                           element={(<RequireAdminWrapper children={<editSpecsRoute.component slug={'/specializations'} filterList={SPECS_LIST}/>}/>)}/>
+
+                    <Route path={editApproachesRoute.path}
+                           element={(<RequireAdminWrapper children={<editApproachesRoute.component slug={'/approaches'} filterList={APPROACH_LIST}/>}/>)}/>
+
+                    <Route path={editLanguagesRoute.path}
+                           element={(<RequireAdminWrapper children={<editLanguagesRoute.component slug={'/languages'} filterList={LANG_LIST}/>}/>)}/>
+
+                    <Route path={editCredsRoute.path}
+                           element={(<RequireAdminWrapper children={<editCredsRoute.component slug={'/credentials'} filterList={CREDS_LIST}/>}/>)}/>
+
                     <Route path={adminLoginPageRoute.path} element={<LoginPage redirectPath={'/admin'}/>}/>
                 </Routes>
             }

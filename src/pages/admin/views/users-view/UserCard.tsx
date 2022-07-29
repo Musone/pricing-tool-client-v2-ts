@@ -5,6 +5,8 @@ import PrimaryButton_1 from "../../../../components/buttons/PrimaryButton_1";
 import {Link} from "react-router-dom";
 import IUserObj from "../../../../components/lists/interfaces/IUserObj";
 import config from "../../../../config/config";
+import DeleteButton from "../../../../components/buttons/DeleteButton";
+import {GET_USERS_URL} from "../../../../constants/urls";
 
 
 const UserCard: FunctionComponent<{
@@ -63,7 +65,7 @@ const UserCard: FunctionComponent<{
 
         setLoading(true);
 
-        fetch(`${config.serverUrl}/api/users/${user._id}`, {
+        fetch(`${GET_USERS_URL}/${user._id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -73,10 +75,12 @@ const UserCard: FunctionComponent<{
         })
             .then((res) => {
                 if (res.status !== 200) {
-                    console.error('Action failed')
-                    return;
+                    throw new Error('delete failed');
                 }
                 history.go();
+            })
+            .catch(() => {
+                alert('Action failed');
             })
             .finally(() => setLoading(false));
     }
@@ -101,11 +105,7 @@ const UserCard: FunctionComponent<{
                     className={`${isCounselor ? 'bg-green-400 hover:bg-green-400/80' : 'bg-orange-400 hover:bg-orange-400/80'} shadow px-3 py-2 rounded max-w-fit text-neutral-900 font-semibold disabled:cursor-not-allowed`}>Counselor
                 </button>
 
-                <button
-                    disabled={loading}
-                    onClick={handleDeleteUserButtonClick}
-                    className={`bg-red-600 hover:bg-red-500/80 shadow px-3 py-2 rounded max-w-fit text-offWhite font-semibold`}>Delete
-                </button>
+                <DeleteButton disabled={loading} onClick={handleDeleteUserButtonClick}/>
             </div>
 
         </div>

@@ -48,7 +48,7 @@ const AdminViewUsersPage: FunctionComponent<{}> = () => {
                     <span className={''}>Name</span>
                     <span className={''}>Email</span>
                 </div>
-                <div>{userList.map((userData: IUserObj) => <UserCard user={userData}/>)}</div>
+                <div>{userList.map((userData: IUserObj, i) => <UserCard key={i} user={userData}/>)}</div>
             </div>
         </PageWrapper>
     )

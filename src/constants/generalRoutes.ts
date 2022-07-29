@@ -17,10 +17,11 @@ import AdminHomePage from "../pages/admin/AdminHomePage";
 import loginPage from "../pages/auth/LoginPage";
 import AdminViewUsersPage from "../pages/admin/views/users-view/AdminViewUsersPage";
 import UserProfilePage from "../pages/admin/views/users-view/UserProfilePage";
+import EditFiltersPage from "../pages/admin/views/edit/EditFiltersPage";
 
 export interface IRoute {
     path: string,
-    component: FunctionComponent,
+    component: FunctionComponent<any>,
     class: string,
     name: string,
     protected: boolean
@@ -39,6 +40,38 @@ export const adminPageRoute: IRoute = {
     component: AdminHomePage,
     class: '',
     name: 'admin home',
+    protected: false
+}
+
+export const editSpecsRoute: IRoute = {
+    path: '/admin/specializations',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit specs',
+    protected: false
+}
+
+export const editApproachesRoute: IRoute = {
+    path: '/admin/approaches',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit approach',
+    protected: false
+}
+
+export const editLanguagesRoute: IRoute = {
+    path: '/admin/languages',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit languages',
+    protected: false
+}
+
+export const editCredsRoute: IRoute = {
+    path: '/admin/credentials',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit credentials',
     protected: false
 }
 
@@ -130,7 +163,7 @@ export const forgotPasswordPageRoute: IRoute = {
 
 export const findACounselorRoute: IRoute = {
     path: '/booking/find-a-counselor',
-    component: HomePage,
+    component: FindACounselorPage,
     class: '',
     name: 'Find a counselor',
     protected: false

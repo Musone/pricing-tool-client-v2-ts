@@ -9,13 +9,13 @@ import Dropdown from "../../components/dropdowns/Dropdown";
 import ISupervisingInfo from "../../components/lists/interfaces/ISupervisingInfo";
 import ICounsellingInfo from "../../components/lists/interfaces/ICounsellingInfo";
 import {
-    APPROACH_DUMBY_LIST,
-    CREDS_DUMBY_LIST,
-    GENDER_DUMBY_LIST,
-    LANG_DUMBY_LIST,
-    PRONOUN_DUMBY_LIST,
-    SPECS_DUMBY_LIST
-} from "../../constants/Constants";
+    APPROACH_LIST,
+    CREDS_LIST,
+    GENDER_LIST,
+    LANG_LIST,
+    PRONOUN_LIST,
+    SPECS_LIST
+} from "../../hooks/useGetFilters";
 import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
@@ -354,14 +354,14 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCo
                                 <div>
                                     <label className={'font-semibold focus:outline-0'}>Pronouns<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
-                                    <Dropdown filterList={PRONOUN_DUMBY_LIST} formKey={'pronouns'}
+                                    <Dropdown filterList={PRONOUN_LIST} formKey={'pronouns'}
                                               form={form} setForm={setForm} />
                                 </div>
 
                                 <div>
                                     <label className={'font-semibold focus:outline-0'}>Gender<span
                                         className={`${isCreating ? 'visible' : 'hidden'} ml-1.5 text-xs text-red-600`}>*required</span></label>
-                                    <Dropdown filterList={GENDER_DUMBY_LIST} formKey={'gender'}
+                                    <Dropdown filterList={GENDER_LIST} formKey={'gender'}
                                               form={form} setForm={setForm} />
                                 </div>
                             </div>
@@ -370,7 +370,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCo
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Specializations</label>
                                     <DropdownMultiselect formKey={'specializations'}
-                                                         filtersList={SPECS_DUMBY_LIST} form={form}
+                                                         filtersList={SPECS_LIST} form={form}
                                                          setForm={setForm}
                                                          />
                                 </div>
@@ -378,7 +378,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCo
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Credentials</label>
                                     <DropdownMultiselect formKey={'credentials'}
-                                                         filtersList={CREDS_DUMBY_LIST} form={form}
+                                                         filtersList={CREDS_LIST} form={form}
                                                          setForm={setForm}
                                                          />
                                 </div>
@@ -386,7 +386,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCo
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Languages</label>
                                     <DropdownMultiselect formKey={'languages'}
-                                                         filtersList={LANG_DUMBY_LIST}
+                                                         filtersList={LANG_LIST}
                                                          form={form}
                                                          setForm={setForm}
 
@@ -396,7 +396,7 @@ const CounselorProfilePanel: FunctionComponent<{ loading: boolean, currentUserCo
                                 <div className={'flex flex-col'}>
                                     <label className={'font-semibold'}>Approach</label>
                                     <DropdownMultiselect formKey={'approach'}
-                                                         filtersList={APPROACH_DUMBY_LIST}
+                                                         filtersList={APPROACH_LIST}
                                                          form={form}
                                                          setForm={setForm}
 

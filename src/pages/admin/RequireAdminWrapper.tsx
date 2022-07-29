@@ -1,7 +1,12 @@
 import React, {FunctionComponent, ReactNode, useContext, useEffect, useState} from "react";
 import {logout} from "../../utils/auth";
 import UserContext from "../../contexts/UserContext";
-import {adminLoginPageRoute, adminViewUsersRoute} from "../../constants/generalRoutes";
+import {
+    adminLoginPageRoute,
+    adminViewUsersRoute,
+    editApproachesRoute, editCredsRoute, editLanguagesRoute,
+    editSpecsRoute
+} from "../../constants/generalRoutes";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 import {Link} from "react-router-dom";
 import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
@@ -18,10 +23,11 @@ function AdminNav() {
                     <PrimaryButton_1 text={'View Users'}/>
                 </Link>
 
-                <PrimaryButton_1 text={'Edit Specializations'}/>
-                <PrimaryButton_1 text={'Edit Approaches'}/>
-                <PrimaryButton_1 text={'Edit Credentials'}/>
-                <PrimaryButton_1 text={'Edit Provinces and Cities'}/>
+                <Link to={editSpecsRoute.path}><PrimaryButton_1 text={'Edit Specializations'}/></Link>
+                <Link to={editApproachesRoute.path}><PrimaryButton_1 text={'Edit Approaches'}/></Link>
+                <Link to={editCredsRoute.path}><PrimaryButton_1 text={'Edit Credentials'}/></Link>
+                <Link to={editLanguagesRoute.path}><PrimaryButton_1 text={'Edit Languages'}/></Link>
+                <Link to={'/admin'}><PrimaryButton_1 text={'Edit Provinces and Cities'}/></Link>
             </div>
             <hr className={'w-3/4'}/>
         </div>

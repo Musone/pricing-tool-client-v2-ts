@@ -8,13 +8,13 @@ import CounselorCardItem from "../../../components/counselorCard/CounselorCardIt
 import TextArea from "../../../components/form/TextArea";
 import Dropdown from "../../../components/dropdowns/Dropdown";
 import {
-    APPROACH_DUMBY_LIST,
-    CREDS_DUMBY_LIST,
-    GENDER_DUMBY_LIST,
-    LANG_DUMBY_LIST,
-    PRONOUN_DUMBY_LIST,
-    SPECS_DUMBY_LIST
-} from "../../../constants/Constants";
+    APPROACH_LIST,
+    CREDS_LIST,
+    GENDER_LIST,
+    LANG_LIST,
+    PRONOUN_LIST,
+    SPECS_LIST
+} from "../../../hooks/useGetFilters";
 import DropdownMultiselect from "../../../components/dropdowns/DropdownMultiselect";
 import CheckBoxInputContainer from "../../../components/form/CheckBoxInput";
 import PROVINCES_DUMBY_LIST from "../../../constants/Provinces";
@@ -172,13 +172,13 @@ const CounselorProfileView: FunctionComponent<{
                     </div>
 
                     <div className={'flex flex-wrap w-full gap-7'}>
-                        <Dropdown filterList={GENDER_DUMBY_LIST} formKey={'gender'}
+                        <Dropdown filterList={GENDER_LIST} formKey={'gender'}
                                   form={form.getValues()}
                                   setForm={(formCopy: IPutCounselorForm) => form.setValue('gender', formCopy.gender)}
                                   err={errors.gender}
                         />
 
-                        <Dropdown filterList={PRONOUN_DUMBY_LIST} formKey={'pronouns'}
+                        <Dropdown filterList={PRONOUN_LIST} formKey={'pronouns'}
                                   form={form.getValues()}
                                   setForm={(formCopy: IPutCounselorForm) => form.setValue('pronouns', formCopy.pronouns)}
                                   err={errors.pronouns}
@@ -188,22 +188,22 @@ const CounselorProfileView: FunctionComponent<{
 
                     <div className={'flex flex-wrap w-full gap-7'}>
                         <DropdownMultiselect formKey={'specializations'}
-                                             filtersList={SPECS_DUMBY_LIST}
+                                             filtersList={SPECS_LIST}
                                              form={form.getValues()}
                                              setForm={(formCopy: IPutCounselorForm) => form.setValue('specializations', formCopy.specializations)}
                         />
                         <DropdownMultiselect formKey={'credentials'}
-                                             filtersList={CREDS_DUMBY_LIST}
+                                             filtersList={CREDS_LIST}
                                              form={form.getValues()}
                                              setForm={(formCopy: IPutCounselorForm) => form.setValue('credentials', formCopy.credentials)}
                         />
                         <DropdownMultiselect formKey={'languages'}
-                                             filtersList={LANG_DUMBY_LIST}
+                                             filtersList={LANG_LIST}
                                              form={form.getValues()}
                                              setForm={(formCopy: IPutCounselorForm) => form.setValue('languages', formCopy.languages)}
                         />
                         <DropdownMultiselect formKey={'approach'}
-                                             filtersList={APPROACH_DUMBY_LIST}
+                                             filtersList={APPROACH_LIST}
                                              form={form.getValues()}
                                              setForm={(formCopy: IPutCounselorForm) => form.setValue('approach', formCopy.approach)}
                         />
