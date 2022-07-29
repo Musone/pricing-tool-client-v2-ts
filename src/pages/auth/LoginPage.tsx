@@ -1,7 +1,7 @@
 import React, {
     Component,
     Dispatch,
-    FormEvent,
+    FormEvent, FunctionComponent,
     ReactElement,
     SetStateAction,
     useContext,
@@ -14,14 +14,13 @@ import {isEmailValid, isPasswordValid, login} from "../../utils/auth";
 import PageWrapper from "../../components/PageWrapper";
 import {Link} from "react-router-dom";
 import {forgotPasswordPageRoute} from "../../constants/generalRoutes";
-import UserContext from "../../contexts/UserContext";
 
 /**
  * todo: I could do the error handling better in here.
  * @constructor
  */
 
-const LoginPage = (): ReactElement => {
+const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): ReactElement => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -63,7 +62,7 @@ const LoginPage = (): ReactElement => {
         login(email, password, resChain)
             .then(() => {
                 // return fetchUserInfo([userContext, setUserContext]);
-                location.assign('/booking/hero');
+                location.assign(redirectPath ?? '/booking/hero');
             })
             .catch((e) => {
                 if (resChain.length < 1) {
@@ -116,7 +115,6 @@ const LoginPage = (): ReactElement => {
 
                             <PrimaryButton_2 text={"Sign In"} type={'submit'}/>
 
-                            {/*// TODO: forgot password  :)*/}
                             <Link to={forgotPasswordPageRoute.path} className="inline-block align-baseline font-bold text-sm text-secondary_4 hover:text-secondary_4/70">
                                     Forgot Password?
                             </Link>

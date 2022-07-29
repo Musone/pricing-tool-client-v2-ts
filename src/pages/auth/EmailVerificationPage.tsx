@@ -1,13 +1,10 @@
 import {FunctionComponent, useEffect, useState} from "react";
-import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import {useLocation} from "react-router-dom";
-import config from "../../config/config";
-import {VALIDATE_EMAIL_URL} from "../../utils/auth";
 import PageWrapper from "../../components/PageWrapper";
+import {VALIDATE_EMAIL_URL} from "../../constants/urls";
 
 
 const EmailVerificationPage: FunctionComponent = (props) => {
-    // const [verificationCode, setVerificationCode] = useState('');
     const [verificationSuccessful, setVerificationSuccessful] = useState(false);
     const [serverNotResponding, setServerNotResponding] = useState(false);
     const [loading, setLoading] = useState(true);

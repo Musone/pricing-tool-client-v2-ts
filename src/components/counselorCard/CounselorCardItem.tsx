@@ -1,5 +1,5 @@
 import React, {FunctionComponent, ReactElement, useState} from 'react';
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../lists/interfaces/ICounselor";
 import CounselorCardDropdown from "./CounselorCardDropdown";
 import {CounselorCardTopPane} from "./CounselorCardTopPane";
 

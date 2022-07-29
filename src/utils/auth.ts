@@ -1,21 +1,13 @@
 import config from "../config/config";
-import {UserObj} from "../App";
 import {Dispatch, SetStateAction} from "react";
 import {string} from "zod";
+import IUserObj from "../components/lists/interfaces/IUserObj";
+import {LOGIN_URL, LOGOUT_URL, REFRESH_URL, USER_ME_URL} from "../constants/urls";
 
 const {
-    serverUrl,
     localStorageAccessTokenKey,
     localStorageRefreshTokenKey,
 } = config;
-
-export const LOGIN_URL: RequestInfo = `${serverUrl}/api/sessions`;
-export const USER_ME_URL: RequestInfo = `${serverUrl}/api/users/me`;
-export const REFRESH_URL: RequestInfo = `${serverUrl}/api/sessions/refresh`;
-export const REGISTRATION_URL: RequestInfo = `${serverUrl}/api/users`;
-export const VALIDATE_EMAIL_URL: RequestInfo = `${serverUrl}/api/users/verify`;
-export const COUNSELOR_ME_URL: RequestInfo = `${serverUrl}/api/counselors/me`;
-export const LOGOUT_URL: RequestInfo = `${serverUrl}/api/sessions/logout`;
 
 // ~~~~ Validation Schemas ~~~~~~
 export const emailSchema = string().email();
@@ -67,7 +59,7 @@ export async function login(email: string, password: string, resChain: Response[
         })
 }
 
-export async function fetchUserInfo([userContext, setUserContext]: [UserObj | null, Dispatch<SetStateAction<UserObj | null>> | null]) {
+export async function fetchUserInfo([userContext, setUserContext]: [IUserObj | null, Dispatch<SetStateAction<IUserObj | null>> | null]) {
     let resChain: Response[] = [];
     let accessToken = localStorage.getItem(localStorageAccessTokenKey);
     let refreshToken = localStorage.getItem(localStorageRefreshTokenKey);
@@ -148,7 +140,7 @@ export async function refreshAccessToken(refreshToken: string, lastRes: Response
  * @param setUserContext
  * @param resChain stores the server response for access to the status code.
  */
-const fetchUserInfoHelper = async (accessToken: string, setUserContext: Dispatch<SetStateAction<UserObj | null>> | null, resChain: Response[]) => {
+const fetchUserInfoHelper = async (accessToken: string, setUserContext: Dispatch<SetStateAction<IUserObj | null>> | null, resChain: Response[]) => {
     return fetch(USER_ME_URL, {
         headers: {
             authorization: accessToken
@@ -162,7 +154,7 @@ const fetchUserInfoHelper = async (accessToken: string, setUserContext: Dispatch
 
             return res.json();
         })
-        .then((userData: UserObj) => {
+        .then((userData: IUserObj) => {
             if (setUserContext === null) {
                 throw new Error('setUserContext is undefined');
             }
@@ -175,3 +167,35 @@ const fetchUserInfoHelper = async (accessToken: string, setUserContext: Dispatch
         })
 }
 
+export const logout = (redirect: string) => {
+    const refreshToken = localStorage.getItem(localStorageRefreshTokenKey);
+    const clearAndRefresh = () => {
+        localStorage.removeItem(localStorageRefreshTokenKey);
+        localStorage.removeItem(localStorageAccessTokenKey);
+        location.assign(redirect);
+    }
+
+    if (refreshToken === null) {
+        clearAndRefresh();
+        return;
+    }
+
+    return fetch(LOGOUT_URL, {
+        method: 'POST',
+        headers: {
+            'x-refresh': refreshToken
+        }
+    })
+        .then((res) => {
+            // console.log('logout status',res.status)
+            if (res.status !== 200) {
+                throw new Error('Logout status not 200...');
+            }
+
+            clearAndRefresh();
+            return;
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+}

@@ -1,18 +1,20 @@
 import React, {ChangeEvent, FunctionComponent, ReactElement, useEffect, useState} from 'react';
 import useHttpRequest from "../../hooks/useHttpRequest";
 import LoadingSpinner from "../../components/Spinner";
-import ICounselor from "../../interfaces/ICounselor";
+import ICounselor from "../../components/lists/interfaces/ICounselor";
 import DropdownMultiselect from "../../components/dropdowns/DropdownMultiselect";
 import config from "../../config/config";
 import PageWrapper from "../../components/PageWrapper";
-import {APPROACH_DUMBY_LIST, GENDER_DUMBY_LIST, LANG_DUMBY_LIST, SPECS_DUMBY_LIST} from "../../constants/Constants";
-import IProvinceAndCity from "../../interfaces/IProvinceAndCity";
+import {APPROACH_LIST, GENDER_LIST, LANG_LIST, SPECS_LIST} from "../../hooks/useGetFilters";
+import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
 import InPersonFilters from "../../components/InPersonFilter";
 import RegularList from "../../components/lists/RegularList";
 import CounselorCardItem from "../../components/counselorCard/CounselorCardItem";
 import CardDisplayTypeContext from "../../contexts/CardDisplayTypeContext";
 import DisplayType from "../../enums/DisplayType";
+import Dropdown from "../../components/dropdowns/Dropdown";
+import CheckBoxInputContainer from "../../components/form/CheckBoxInput";
 
 export interface QueryParamObj {
     counselling: boolean | null,
@@ -87,7 +89,7 @@ const FindACounselorPage: FunctionComponent<{
         let isFirst = true;
 
         Object.entries(queryParams).forEach(([key, value]) => {
-            if (value === null) return;
+            if (value === null || value.length < 1) return;
 
             if (isFirst) isFirst = false;
             else temp += '&';
@@ -104,7 +106,6 @@ const FindACounselorPage: FunctionComponent<{
         setAjaxUrl(temp);
         // console.debug({ajaxUrl})
     }, [queryParams]);
-
 
     function handleSliderOnChange(e: ChangeEvent<HTMLInputElement>) {
         let temp: QueryParamObj = {...queryParams};
@@ -130,7 +131,7 @@ const FindACounselorPage: FunctionComponent<{
                     </span>
                 </div>
 
-                <div id={'Price slider'} className="pt-1 w-3/4 max-w-screen-2xl">
+                <div className="pt-1 w-3/4 max-w-screen-2xl">
                     <div className={'w-full'}>
                         <label htmlFor="priceSlider" className="text-2xl font-semibold form-label">
                             I can afford up to{' '}
@@ -143,57 +144,57 @@ const FindACounselorPage: FunctionComponent<{
                             className={"overflow-visible appearance-none rounded-full bg-neutral-400 w-full h-2 p-0 focus:outline-none "}
                             id="priceSlider"
                             min={0}
-                            max={200}
+                            max={500}
                             value={(queryParams.maxPrice as number)}
                             onChange={handleSliderOnChange}
                         />
                     </div>
                 </div>
 
-
-                <div
-                    className={'my-10 flex flex-wrap w-3/4 h-auto gap-5 lg:gap-10 lg:flex-nowrap lg:flex-row xl:max-w-screen-2xl'}>
-                    <DropdownMultiselect idProp={'genderFilterButton'} filterLabel={'gender'}
-                                         filtersList={GENDER_DUMBY_LIST}
-                                         parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'specializationsFilterButton'} filterLabel={'specializations'}
-                                         filtersList={SPECS_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'approachFilterButton'} filterLabel={'approach'}
-                                         filtersList={APPROACH_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
-                    <DropdownMultiselect idProp={'languagesFilterButton'} filterLabel={'languages'}
-                                         filtersList={LANG_DUMBY_LIST} parentQuery={queryParams}
-                                         setParentQuery={setQueryParams}/>
+                <div className={'w-3/4 max-w-screen-2xl'}>
+                    <div
+                        className={'my-10 self-start w-full md:w-[625px] flex flex-wrap h-auto gap-5 2xl:gap-10 xl:flex-nowrap'}>
+                        <DropdownMultiselect idProp={'genderFilterButton'} formKey={'gender'}
+                                             filtersList={GENDER_LIST}
+                                             form={queryParams}
+                                             setForm={setQueryParams}/>
+                        <DropdownMultiselect idProp={'specializationsFilterButton'} formKey={'specializations'}
+                                             filtersList={SPECS_LIST} form={queryParams}
+                                             setForm={setQueryParams}/>
+                        <DropdownMultiselect idProp={'approachFilterButton'} formKey={'approach'}
+                                             filtersList={APPROACH_LIST} form={queryParams}
+                                             setForm={setQueryParams}/>
+                        <DropdownMultiselect idProp={'languagesFilterButton'} formKey={'languages'}
+                                             filtersList={LANG_LIST} form={queryParams}
+                                             setForm={setQueryParams}/>
+                    </div>
                 </div>
 
-                <div className={'w-3/4 max-w-screen-2xl mb-5 -mt-5'}>
-                    <InPersonFilters className={'-ml-5 -mt-5 bg-transparent'}
-                                     hideWhenDisabled={true}
-                                     label={'In Person Booking'}
-                                     inPerson={inPerson}
-                                     onChange={() => {
-                                         setInPerson({
-                                             checked: !inPerson.checked,
-                                             data: inPerson.data
-                                         });
-                                     }}
-                                     parentQuery={(val: IProvinceAndCity) =>
-                                         setInPerson({
-                                             checked: inPerson.checked,
-                                             data: {
-                                                 province: val.province,
-                                                 city: PROVINCES_DUMBY_LIST[val.province as keyof typeof PROVINCES_DUMBY_LIST][0]
-                                             }
-                                         })}
-                                     parentQuery1={(val: IProvinceAndCity) => setInPerson({
-                                         checked: inPerson.checked,
-                                         data: {
-                                             province: inPerson.data.province,
-                                             city: val.city,
-                                         }
-                                     })}/>
+                <div className={'w-3/4 max-w-screen-2xl mb-5 -ml-10 -mt-10'}>
+                    <CheckBoxInputContainer className={'bg-white'}
+                                            hideWhenDisabled={true}
+                                            id={'inPerson-checkbox-input'}
+                                            label={'In Person'}
+                                            setForm={(value: IProvinceAndCity, checked: boolean) => {
+                                                setInPerson({
+                                                    checked: checked,
+                                                    data: value
+                                                })
+                                            }}>
+                        <Dropdown noChoose={true}
+                                  formKey={"province"}
+                                  filterList={Object.keys(PROVINCES_DUMBY_LIST)}
+                                  form={inPerson.data}
+                        />
+
+                        <Dropdown
+                            noChoose={true}
+                            formKey={"city"}
+                            value={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST][0]}
+                            filterList={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST]}
+                            form={inPerson.data}
+                        />
+                    </CheckBoxInputContainer>
                 </div>
 
                 <hr className={'w-4/5 mb-10 self-center'}/>

@@ -10,7 +10,7 @@ export interface IHttpReqObj {
 let timeout: number | undefined = undefined;
 export default function useHttpRequest(url: RequestInfo, init?: RequestInit, trigger?: boolean) {
     const [state, setState] = useState<IHttpReqObj>({
-        isLoading: false,
+        isLoading: true,
         isError: false,
         data: null,
         res: null,

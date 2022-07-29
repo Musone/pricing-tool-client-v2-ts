@@ -13,14 +13,121 @@ import ProfilePage from "../pages/auth/ProfilePage";
 import EmailVerificationPage from "../pages/auth/EmailVerificationPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import LogoutPage from "../pages/auth/LogoutPage";
+import AdminHomePage from "../pages/admin/AdminHomePage";
+import loginPage from "../pages/auth/LoginPage";
+import AdminViewUsersPage from "../pages/admin/views/users-view/AdminViewUsersPage";
+import UserProfilePage from "../pages/admin/views/users-view/UserProfilePage";
+import EditFiltersPage from "../pages/admin/views/edit/EditFiltersPage";
 
 export interface IRoute {
     path: string,
-    component: FunctionComponent,
+    component: FunctionComponent<any>,
     class: string,
     name: string,
     protected: boolean
 }
+
+export const adminLoginPageRoute: IRoute = {
+    path: '/admin/login',
+    component: loginPage,
+    class: '',
+    name: 'admin login',
+    protected: false
+}
+
+export const adminPageRoute: IRoute = {
+    path: '/admin',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin home',
+    protected: false
+}
+
+export const editSpecsRoute: IRoute = {
+    path: '/admin/specializations',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit specs',
+    protected: false
+}
+
+export const editApproachesRoute: IRoute = {
+    path: '/admin/approaches',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit approach',
+    protected: false
+}
+
+export const editLanguagesRoute: IRoute = {
+    path: '/admin/languages',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit languages',
+    protected: false
+}
+
+export const editCredsRoute: IRoute = {
+    path: '/admin/credentials',
+    component: EditFiltersPage,
+    class: '',
+    name: 'admin edit credentials',
+    protected: false
+}
+
+export const adminViewUsersRoute: IRoute = {
+    path: '/admin/users',
+    component: AdminViewUsersPage,
+    class: '',
+    name: 'admin view users',
+    protected: false
+}
+
+export const adminViewUserProfileRoute: IRoute = {
+    path: '/admin/users/:id',
+    component: UserProfilePage,
+    class: '',
+    name: 'admin view users',
+    protected: false
+}
+
+/*
+export const adminSpecsRoute: IRoute = {
+    path: '/admin/specializations',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin specs',
+    protected: false
+}
+
+export const adminApproachesRoute: IRoute = {
+    path: '/admin/approaches',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin specs',
+    protected: false
+}
+
+export const adminCredsRoute: IRoute = {
+    path: '/admin/credentials',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin creds',
+    protected: false
+}
+
+export const adminGeolocation: IRoute = {
+    path: '/admin/geolocation',
+    component: AdminHomePage,
+    class: '',
+    name: 'admin provinces and cities',
+    protected: false
+}
+*/
+
+
+
+
 
 export const emailVerificationPageRoute: IRoute = {
     path: '/auth/verify',
@@ -56,7 +163,7 @@ export const forgotPasswordPageRoute: IRoute = {
 
 export const findACounselorRoute: IRoute = {
     path: '/booking/find-a-counselor',
-    component: HomePage,
+    component: FindACounselorPage,
     class: '',
     name: 'Find a counselor',
     protected: false
