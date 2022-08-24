@@ -105,7 +105,7 @@ const UserCard: FunctionComponent<{
                     className={`${isCounselor ? 'bg-green-400 hover:bg-green-400/80' : 'bg-orange-400 hover:bg-orange-400/80'} shadow px-3 py-2 rounded max-w-fit text-neutral-900 font-semibold disabled:cursor-not-allowed`}>Counselor
                 </button>
 
-                <DeleteButton disabled={loading} onClick={handleDeleteUserButtonClick}/>
+                {!user.roles.includes('admin') && <DeleteButton disabled={loading} onClick={handleDeleteUserButtonClick}/>}
             </div>
 
         </div>
