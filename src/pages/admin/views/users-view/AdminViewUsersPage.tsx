@@ -62,6 +62,7 @@ const AdminViewUsersPage: FunctionComponent<{}> = () => {
                                   form={{filter: 'firstName'}} noChoose={true}
                                   setForm={((formCopy: { filter: string }) => setFilterKey(formCopy.filter))}/>
                     </div>
+            </div>
                 {/*</div>*/}
                 <div className={'w-3/4 max-w-screen-xl'}>
                     <div className={'grid grid-flow-cols grid-cols-3 p-3 gap-2 border'}>
@@ -70,7 +71,6 @@ const AdminViewUsersPage: FunctionComponent<{}> = () => {
                     </div>
                     <div>{userList.map((userData: IUserObj, i) => <UserCard key={i} user={userData}/>)}</div>
                 </div>
-            </div>
         </PageWrapper>
     )
 }
