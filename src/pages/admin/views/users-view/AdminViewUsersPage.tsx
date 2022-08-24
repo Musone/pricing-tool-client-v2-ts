@@ -52,7 +52,7 @@ const AdminViewUsersPage: FunctionComponent<{}> = () => {
 
     return (
         <PageWrapper>
-            <div className={'w-3/4 max-w-screen-2xl'}>
+            <div className={'w-3/4 max-w-screen-2xl flex justify-center'}>
                 {/*<div className={'flex flex-col items-center'}>*/}
                     <CreateUserComponent/>
                     <div className={'flex flex-wrap w-3/4 items-center gap-3 mb-4'}>
