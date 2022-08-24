@@ -27,7 +27,7 @@ function AdminNav() {
                 <Link to={editApproachesRoute.path}><PrimaryButton_1 text={'Edit Approaches'}/></Link>
                 <Link to={editCredsRoute.path}><PrimaryButton_1 text={'Edit Credentials'}/></Link>
                 <Link to={editLanguagesRoute.path}><PrimaryButton_1 text={'Edit Languages'}/></Link>
-                <Link to={'/admin'}><PrimaryButton_1 text={'Edit Provinces and Cities'}/></Link>
+                {/*<Link to={'/admin'}><PrimaryButton_1 text={'Edit Provinces and Cities'}/></Link>*/}
             </div>
             <hr className={'w-3/4'}/>
         </div>

@@ -6,6 +6,7 @@ import capitalize from "../../utils/capitalize";
 const dropdown: FunctionComponent<{
     trigger?: any,
     noChoose?: boolean,
+    noLabel?: boolean,
     value?: string,
     disabled?: boolean,
     formKey: string,
@@ -24,6 +25,7 @@ const dropdown: FunctionComponent<{
            value,
            trigger,
            err,
+    noLabel,
        }) => {
     const dropDownRef = useRef<HTMLDivElement>(null);
     const NONE_SELECTED = 'Choose';
@@ -88,7 +90,7 @@ const dropdown: FunctionComponent<{
 
     return (
         <div className={'flex flex-col'}>
-            <label className={'font-semibold focus:outline-0'}>{capitalize(formKey)}</label>
+            {!noLabel && <label className={'font-semibold focus:outline-0'}>{capitalize(formKey)}</label>}
             <div className={` w-64 h-fit border border-secondary_1 rounded-md overflow-hidden`}
                  onClick={handleButtonOnClick}>
                 <div

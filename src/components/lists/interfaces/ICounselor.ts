@@ -1,6 +1,7 @@
 import ICounsellingInfo from "./ICounsellingInfo";
 import ISupervisingInfo from "./ISupervisingInfo";
 import IProvinceAndCity from "./IProvinceAndCity";
+import {LatLngExpression} from "leaflet";
 
 export default interface ICounselor {
     user: string;
@@ -10,6 +11,7 @@ export default interface ICounselor {
     age: number;
     pronouns: string;
     in_person: IProvinceAndCity | null;
+    geolocation: { latitude: number, longitude: number, name: string } | null;
     languages: string[];
     specializations: string[];
     specializationDesc: string;

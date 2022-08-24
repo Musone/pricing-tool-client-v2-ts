@@ -83,6 +83,7 @@ const CounselorProfileApi: FunctionComponent<{
         introduction: data?.introduction ?? '',
         janeId: data?.janeId ?? '',
         in_person: data?.in_person ?? null,
+        geolocation: data?.geolocation ?? null,
         counselling: data?.counselling ?? null,
         supervising: data?.supervising ?? null,
     }

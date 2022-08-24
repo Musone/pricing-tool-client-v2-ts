@@ -8,13 +8,18 @@ import PageWrapper from "../../components/PageWrapper";
 import {APPROACH_LIST, GENDER_LIST, LANG_LIST, SPECS_LIST} from "../../hooks/useGetFilters";
 import IProvinceAndCity from "../../components/lists/interfaces/IProvinceAndCity";
 import PROVINCES_DUMBY_LIST from "../../constants/Provinces";
-import InPersonFilters from "../../components/InPersonFilter";
 import RegularList from "../../components/lists/RegularList";
 import CounselorCardItem from "../../components/counselorCard/CounselorCardItem";
 import CardDisplayTypeContext from "../../contexts/CardDisplayTypeContext";
 import DisplayType from "../../enums/DisplayType";
 import Dropdown from "../../components/dropdowns/Dropdown";
 import CheckBoxInputContainer from "../../components/form/CheckBoxInput";
+import SearchBar from "../../components/SearchBar";
+import isNullOrUndefined from "../../utils/isNullOrUndefined";
+import GeoMap from "../../components/form/GeoMap";
+import SearchBar2 from "../../components/SearchBar2";
+import {LatLngExpression} from "leaflet";
+import calculateSquareDistance from "../../utils/calculateSquareDistance";
 
 export interface QueryParamObj {
     counselling: boolean | null,
@@ -26,6 +31,16 @@ export interface QueryParamObj {
     languages: string[] | null,
     province: string[] | null,
     city: string[] | null,
+}
+
+enum SortBy {
+    'None', 'Price (lowest to highest)', 'Price (highest to lowest)', 'Distance (nearest)', 'Alphabetic (A-Z)'
+}
+
+function enumToArray(myEnum: any) {
+    return Object.keys(myEnum)
+        .filter((value: any) => isNaN(Number(value)) === false)
+        .map(key => myEnum[key]);
 }
 
 const FindACounselorPage: FunctionComponent<{
@@ -53,6 +68,62 @@ const FindACounselorPage: FunctionComponent<{
         checked: false,
         data: {city: Object.values(PROVINCES_DUMBY_LIST)[0][0], province: Object.keys(PROVINCES_DUMBY_LIST)[0]}
     });
+
+    const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
+    const [counselorList, setCounselorList] = useState<ICounselor[]>([]);
+    const [counselorListCopy, setCounselorListCopy] = useState<ICounselor[]>([]);
+    const [filterKey, setFilterKey] = useState('firstName');
+    const [search, setSearch] = useState('');
+    const [sort, setSort] = useState<SortBy>(SortBy.None);
+
+    useEffect(() => {
+        if (!isNullOrUndefined(data)) {
+            setCounselorListCopy([...data]);
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (!isNullOrUndefined(data)) {
+            setCounselorList(data.filter((counselor: ICounselor) => `${counselor.firstName.toLowerCase()} ${counselor.lastName.toLowerCase()}`.includes(search.toLowerCase())).sort((a: ICounselor, b: ICounselor) => {
+                switch (sort) {
+                    case SortBy.None:
+                        return 0.5 - Math.random();
+                        break;
+                    case SortBy['Price (lowest to highest)']:
+                        if (displayType === DisplayType.Counselor) {
+                            return (a.counselling?.minPrice ?? 0) - (b.counselling?.minPrice ?? 0);
+                        } else if (displayType === DisplayType.Supervisor) {
+                            return (a.supervising?.minPrice ?? 0) - (b.supervising?.minPrice ?? 0);
+                        }
+                        break;
+                    case SortBy['Price (highest to lowest)']:
+                        if (displayType === DisplayType.Counselor) {
+                            return (b.counselling?.minPrice ?? 0) - (a.counselling?.minPrice ?? 0);
+                        } else if (displayType === DisplayType.Supervisor) {
+                            return (b.supervising?.minPrice ?? 0) - (a.supervising?.minPrice ?? 0);
+                        }
+                        break;
+                    case SortBy['Alphabetic (A-Z)']:
+                        return a.firstName.localeCompare(b.firstName)
+                        break;
+                    case SortBy['Distance (nearest)']:
+                        if (!userPos || (!a.geolocation && !b.geolocation)) return 0.5 - Math.random();
+                        if (a.geolocation && !b.geolocation) return -1;
+                        if (!a.geolocation && b.geolocation) return 1;
+                        const lat = (userPos as number[])[0];
+                        const lon = (userPos as number[])[1];
+                        const sqDistA = calculateSquareDistance(lon, lat, a.geolocation?.longitude as number, a.geolocation?.latitude as number);
+                        const sqDistB = calculateSquareDistance(lon, lat, b.geolocation?.longitude as number, b.geolocation?.latitude as number);
+
+                        return sqDistA - sqDistB;
+                        break;
+                    default:
+                        break;
+                }
+                return 0;
+            }));
+        }
+    }, [data, search, sort, userPos])
 
     useEffect(() => {
         let temp = {...queryParams};
@@ -170,39 +241,64 @@ const FindACounselorPage: FunctionComponent<{
                     </div>
                 </div>
 
-                <div className={'w-3/4 max-w-screen-2xl mb-5 -ml-10 -mt-10'}>
-                    <CheckBoxInputContainer className={'bg-white'}
-                                            hideWhenDisabled={true}
-                                            id={'inPerson-checkbox-input'}
-                                            label={'In Person'}
-                                            setForm={(value: IProvinceAndCity, checked: boolean) => {
-                                                setInPerson({
-                                                    checked: checked,
-                                                    data: value
-                                                })
-                                            }}>
-                        <Dropdown noChoose={true}
-                                  formKey={"province"}
-                                  filterList={Object.keys(PROVINCES_DUMBY_LIST)}
-                                  form={inPerson.data}
-                        />
+                <div className={'w-3/4 max-w-screen-2xl -ml-10 -mt-10'}>
+                    {/*    <CheckBoxInputContainer className={'bg-white'}*/}
+                    {/*                            hideWhenDisabled={true}*/}
+                    {/*                            id={'inPerson-checkbox-input'}*/}
+                    {/*                            label={'In Person'}*/}
+                    {/*                            setForm={(value: IProvinceAndCity, checked: boolean) => {*/}
+                    {/*                                setInPerson({*/}
+                    {/*                                    checked: checked,*/}
+                    {/*                                    data: value*/}
+                    {/*                                })*/}
+                    {/*                            }}>*/}
+                    {/*        <Dropdown noChoose={true}*/}
+                    {/*                  formKey={"province"}*/}
+                    {/*                  filterList={Object.keys(PROVINCES_DUMBY_LIST)}*/}
+                    {/*                  form={inPerson.data}*/}
+                    {/*        />*/}
 
-                        <Dropdown
-                            noChoose={true}
-                            formKey={"city"}
-                            value={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST][0]}
-                            filterList={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST]}
-                            form={inPerson.data}
-                        />
+                    {/*        <Dropdown*/}
+                    {/*            noChoose={true}*/}
+                    {/*            formKey={"city"}*/}
+                    {/*            value={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST][0]}*/}
+                    {/*            filterList={PROVINCES_DUMBY_LIST[inPerson.data.province as keyof typeof PROVINCES_DUMBY_LIST]}*/}
+                    {/*            form={inPerson.data}*/}
+                    {/*        />*/}
+                    {/*    </CheckBoxInputContainer>*/}
+
+                    <CheckBoxInputContainer defaultChecked={true}
+                                            className={'bg-white w-11/12 overflow-hidden min-w-[400px]'}
+                                            hideWhenDisabled={true}
+                                            id={'geo-map'}
+                                            label={'Search In-Person sessions'}
+                                            setForm={() => null}>
+                        <GeoMap userPos={userPos} setUserPos={setUserPos} setSearch={setSearch}
+                                counselors={counselorListCopy}/>
                     </CheckBoxInputContainer>
                 </div>
+
+
+                <div className={'flex flex-wrap w-3/4 items-end gap-3 mb-4 max-w-screen-2xl'}>
+                    <Dropdown noChoose={true} formKey={'sort'} filterList={enumToArray(SortBy)} form={{sort: 'None'}}
+                              setForm={(formCopy: { sort: keyof typeof SortBy }) => setSort(SortBy[formCopy.sort])}/>
+                    <SearchBar2 searchLabel={'Search'}
+                                placeholder={'Search by Name'}
+                                searchValue={search}
+                                setSearchValue={setSearch}/>
+                </div>
+
+
+                {/*<div className={'my-36 w-3/4 overflow-hidden'}>*/}
+                {/*    <GeoMap counselors={counselorList}/>*/}
+                {/*</div>*/}
 
                 <hr className={'w-4/5 mb-10 self-center'}/>
 
                 {!isLoading && !data &&
                     <span className={'text-muted'}>
                     It doesn't look like there are any counselors available at this time.
-                </span>
+                    </span>
                 }
 
                 {isLoading && activateSpinner &&
@@ -211,23 +307,23 @@ const FindACounselorPage: FunctionComponent<{
                     </div>
                 }
 
-                {!isLoading && data &&
+                {!isLoading && data && counselorList &&
                     <>
                         <div className={'px-5 w-3/4 max-w-screen-xl'}>
                             <span className={'text-muted hover:cursor-default'}>{
-                                (data as string[]).length
+                                counselorList.length
                                 + ' counselor'
-                                + ((data as string[]).length === 1 ? ' ' : 's ')
+                                + (counselorList.length === 1 ? ' ' : 's ')
                                 + 'available'
                             }</span>
                         </div>
 
-                        {(data as string[]).length < 1 ?
+                        {counselorList.length < 1 ?
                             <span className={'text-muted my-5'}>
                                     It doesn't look like there are any counselors that match your filters.
                                 </span>
                             : <>
-                                <RegularList itemList={[...data] as ICounselor[]} resourceName={"counselor"}
+                                <RegularList itemList={[...counselorList] as ICounselor[]} resourceName={"counselor"}
                                              itemComponent={CounselorCardItem}/>
                             </>
                         }

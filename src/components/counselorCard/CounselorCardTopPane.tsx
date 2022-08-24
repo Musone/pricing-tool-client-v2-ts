@@ -8,6 +8,10 @@ import PrimaryButton_1 from "../../components/buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../../components/buttons/PrimaryButton_2";
 import DisplayType from "../../enums/DisplayType";
 import CardDisplayTypeContext from "../../contexts/CardDisplayTypeContext";
+import {Link} from "react-router-dom";
+import isNullOrUndefined from "../../utils/isNullOrUndefined";
+import isEmptyString from "../../utils/isEmptyString";
+import DEFAULT_PFP from "../../assets/images/default_pfp.jpg";
 
 export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, toggleTriggerState: [any, Dispatch<SetStateAction<any>>] }>
     = ({counselor, toggleTriggerState: [toggleTrigger, setToggleTrigger]}) => {
@@ -27,7 +31,8 @@ export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, to
                 currentTarget.onerror = null; // prevents looping
                 let tester = new Image();
                 tester.onload = () => currentTarget.src = counselor.pfp;
-                tester.onerror = () => currentTarget.src = `https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg`;
+                // tester.onerror = () => currentTarget.src = `https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg`;
+                tester.onerror = () => currentTarget.src = DEFAULT_PFP;
                 tester.src = counselor.pfp;
             }} alt={counselor.pfp}/>
 
@@ -67,9 +72,14 @@ export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, to
                     <div className={"flex flex-row justify-start"}>
                         <PrimaryButton_1 text={"View profile"}
                                          callBack={() => setToggleTrigger(!toggleTrigger)}/>
-                        <PrimaryButton_2 text={"Book a free consultation"} callBack={() => {
-                            return
-                        }}/>
+
+                        {!isNullOrUndefined(counselor.janeId) && !isEmptyString(counselor.janeId) ? (
+                                <a href={`https://phare.janeapp.com/#/staff_member/${counselor.janeId}`}>
+                                    <PrimaryButton_2 text={"Book a free consultation"}/>
+                                </a>)
+                            :
+                            (<PrimaryButton_2 text={"Booking unavailable"} loading={true}/>)
+                        }
                     </div>
                 </div>
             </div>

@@ -37,6 +37,7 @@ const DropdownMultiselect: FunctionComponent<{
     useEffect(() => {
         let temp = [...filtersList];
         temp = temp.filter((name) => !selectedFilters.includes(name));
+        setSearch('');
         setSearchFilters(temp);
     }, [selectedFilters])
 
@@ -152,6 +153,7 @@ const DropdownMultiselect: FunctionComponent<{
                         <div id={'dropdownSearch'} className={'my-0.5 px-1 py-2 flex justify-center'}>
                             <input
                                 type="search"
+                                value={search}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
                                 className={"form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding " +
                                     "border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-secondary_1/50 focus:outline-none"}

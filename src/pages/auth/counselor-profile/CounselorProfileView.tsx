@@ -24,6 +24,9 @@ import NumberInput from "../../../components/form/NumberInput";
 import ICounsellingInfo from "../../../components/lists/interfaces/ICounsellingInfo";
 import PrimaryButton_1 from "../../../components/buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../../../components/buttons/PrimaryButton_2";
+import GeoMap from "../../../components/form/GeoMap";
+import {LatLngExpression} from "leaflet";
+import isNullOrUndefined from "../../../utils/isNullOrUndefined";
 
 
 const CounselorProfileView: FunctionComponent<{
@@ -50,6 +53,20 @@ const CounselorProfileView: FunctionComponent<{
         }
     );
 
+    const [isGeoOpen, setIsGeoOpen] = useState(!isNullOrUndefined(form.getValues('geolocation')));
+    const [userPos, setUserPos] = useState<LatLngExpression | null>(form.getValues('geolocation') ?
+        [form.getValues('geolocation.latitude'), form.getValues('geolocation.longitude')]
+        : null);
+    const [geo, setGeo] = useState<{ latitude: number, longitude: number, name: string } | null>(form.getValues('geolocation') as { latitude: number, longitude: number, name: string } | null);
+
+    useEffect(() => {
+        if (isGeoOpen) {
+            form.setValue('geolocation', geo ? {...geo} : null);
+        } else {
+            form.setValue('geolocation', null);
+        }
+
+    }, [isGeoOpen, geo])
 
 
     const [supervisingSynchronizer, setSupervisingSynchronizer] = useState<ISupervisingInfo>(
@@ -223,29 +240,42 @@ const CounselorProfileView: FunctionComponent<{
                               register={register('approachDesc')}/>
 
 
-                    <CheckBoxInputContainer id={'inPerson-checkbox-input'}
-                                            defaultChecked={form.getValues('in_person') !== null}
-                                            label={'In Person'}
-                                            setForm={(value: IProvinceAndCity, checked: boolean) => {
-                                                setInPersonSynchronizer({
-                                                    checked: checked,
-                                                    data: value,
-                                                });
-                                            }}>
-                        <Dropdown noChoose={true}
-                                  formKey={"province"}
-                                  filterList={Object.keys(PROVINCES_DUMBY_LIST)}
-                                  value={inPersonSynchronizer.data.province}
-                                  form={inPersonSynchronizer.data}
-                        />
+                    {/*<CheckBoxInputContainer id={'inPerson-checkbox-input'}*/}
+                    {/*                        defaultChecked={form.getValues('in_person') !== null}*/}
+                    {/*                        label={'In Person'}*/}
+                    {/*                        setForm={(value: IProvinceAndCity, checked: boolean) => {*/}
+                    {/*                            setInPersonSynchronizer({*/}
+                    {/*                                checked: checked,*/}
+                    {/*                                data: value,*/}
+                    {/*                            });*/}
+                    {/*                        }}>*/}
+                    {/*    <Dropdown noChoose={true}*/}
+                    {/*              formKey={"province"}*/}
+                    {/*              filterList={Object.keys(PROVINCES_DUMBY_LIST)}*/}
+                    {/*              value={inPersonSynchronizer.data.province}*/}
+                    {/*              form={inPersonSynchronizer.data}*/}
+                    {/*    />*/}
 
-                        <Dropdown
-                            noChoose={true}
-                            formKey={"city"}
-                            value={inPersonSynchronizer.data.city}
-                            filterList={PROVINCES_DUMBY_LIST[inPersonSynchronizer.data.province as keyof typeof PROVINCES_DUMBY_LIST]}
-                            form={inPersonSynchronizer.data}
-                        />
+                    {/*    <Dropdown*/}
+                    {/*        noChoose={true}*/}
+                    {/*        formKey={"city"}*/}
+                    {/*        value={inPersonSynchronizer.data.city}*/}
+                    {/*        filterList={PROVINCES_DUMBY_LIST[inPersonSynchronizer.data.province as keyof typeof PROVINCES_DUMBY_LIST]}*/}
+                    {/*        form={inPersonSynchronizer.data}*/}
+                    {/*    />*/}
+                    {/*</CheckBoxInputContainer>*/}
+
+                    <CheckBoxInputContainer giveSetFormToChildren={false} defaultChecked={isGeoOpen}
+                                            className={'bg-white w-11/12 overflow-hidden min-w-[400px]'}
+                                            hideWhenDisabled={true}
+                                            id={'geo-map'}
+                                            label={'In Person'}
+                                            setForm={(nothing: any, checked: boolean) => setIsGeoOpen(checked)}
+                    >
+                        {!isNullOrUndefined(form.getValues('geolocation')) || isGeoOpen ?
+                            <GeoMap userPos={userPos} setUserPos={setUserPos} counselors={[]} enableSearch={true}
+                                 noGps={true} setGeo={setGeo}/>
+                        : <></>}
                     </CheckBoxInputContainer>
 
                     <div className={'flex flex-wrap gap-7'}>
@@ -331,10 +361,13 @@ const CounselorProfileView: FunctionComponent<{
                         </CheckBoxInputContainer>
                     </div>
 
+
                     {serverError === 'NOT_RESPONDING' &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Server not responding. Try again later</span>}
                     {serverError === 'BAD_REQUEST' &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Server update validation failed</span>}
+                    {serverError === 'IMAGE_TOO_BIG' &&
+                        <span className={'ml-1.5 text-xs text-red-600'}>Image file size too large</span>}
                     {(errors.age || errors.pronouns || errors.gender || errors.supervising || errors.counselling) &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Some inputs are required</span>
                     }
@@ -349,10 +382,12 @@ const CounselorProfileView: FunctionComponent<{
             </>
             }
 
+
             {!editProfile &&
-                <PrimaryButton_1 loading={isSubmitting}
-                                 text={!defaultPreviewData ? 'Create Counselor Profile' : 'Edit Counselor Profile'}
-                                 callBack={() => setEditProfile(true)}/>}
+                <div><PrimaryButton_1 loading={isSubmitting}
+                                      text={!defaultPreviewData ? 'Create Counselor Profile' : 'Edit Counselor Profile'}
+                                      callBack={() => setEditProfile(true)}/></div>}
+
         </>
     )
 }

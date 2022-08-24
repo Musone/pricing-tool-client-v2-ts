@@ -10,6 +10,7 @@ import ICounselor from "../../../components/lists/interfaces/ICounselor";
 export enum ServerError {
     NOT_RESPONDING='NOT_RESPONDING',
     BAD_REQUEST='BAD_REQUEST',
+    IMAGE_TOO_BIG='IMAGE_TOO_BIG',
 }
 
 const CounselorProfileLogic: FunctionComponent<{
@@ -46,8 +47,6 @@ const CounselorProfileLogic: FunctionComponent<{
     const handleSubmit = async (data: IPutCounselorForm) => {
         setServerError(null);
 
-        // console.log({data})
-
         await onSubmit(data)
             .then((res) => {
                 if (res.status === 200) {
@@ -55,6 +54,8 @@ const CounselorProfileLogic: FunctionComponent<{
                     window.history.go();
                 } else if (res.status === 400) {
                     setServerError(ServerError.BAD_REQUEST);
+                } else if (res.status === 413) {
+                    setServerError(ServerError.IMAGE_TOO_BIG);
                 }
             })
             .catch((err) => {

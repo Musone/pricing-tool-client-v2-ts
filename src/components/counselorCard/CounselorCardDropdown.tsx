@@ -3,6 +3,9 @@ import capitalize from "../../utils/capitalize";
 import PrimaryButton_1 from "../buttons/PrimaryButton_1";
 import PrimaryButton_2 from "../buttons/PrimaryButton_2";
 import ICounselor from "../lists/interfaces/ICounselor";
+import isNullOrUndefined from "../../utils/isNullOrUndefined";
+import {Link} from "react-router-dom";
+import isEmptyString from "../../utils/isEmptyString";
 
 const CounselorCardDropdown: FunctionComponent<{ counselor: ICounselor, toggleTriggerState: [any, Dispatch<SetStateAction<any>>] }>
     = ({counselor, toggleTriggerState: [toggleTrigger, setToggleTrigger]}): ReactElement => {
@@ -88,7 +91,13 @@ const CounselorCardDropdown: FunctionComponent<{ counselor: ICounselor, toggleTr
 
                 <div className={'flex flex-row'}>
                     <PrimaryButton_1 text={'Close profile'} callBack={() => handleCloseDropdown()}/>
-                    <PrimaryButton_2 text={'Book a free consultation'} />
+                    {!isNullOrUndefined(counselor.janeId) && !isEmptyString(counselor.janeId) ? (
+                            <a href={`https://phare.janeapp.com/#/staff_member/${counselor.janeId}`}>
+                                <PrimaryButton_2 text={"Book a free consultation"}/>
+                            </a>)
+                        :
+                        (<PrimaryButton_2 text={"Booking unavailable"} loading={true}/>)
+                    }
                 </div>
             </div>
         </div>
