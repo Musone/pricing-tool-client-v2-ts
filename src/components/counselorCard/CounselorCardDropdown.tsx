@@ -6,6 +6,7 @@ import ICounselor from "../lists/interfaces/ICounselor";
 import isNullOrUndefined from "../../utils/isNullOrUndefined";
 import {Link} from "react-router-dom";
 import isEmptyString from "../../utils/isEmptyString";
+import Tag from "../Tag";
 
 const CounselorCardDropdown: FunctionComponent<{ counselor: ICounselor, toggleTriggerState: [any, Dispatch<SetStateAction<any>>] }>
     = ({counselor, toggleTriggerState: [toggleTrigger, setToggleTrigger]}): ReactElement => {
@@ -76,17 +77,20 @@ const CounselorCardDropdown: FunctionComponent<{ counselor: ICounselor, toggleTr
                     </div>
                 }
 
-                <div className={'flex flex-col w-full'}>
+                {counselor.introduction.length > 0 && <div className={'flex flex-col w-full'}>
                     <span
                         className={'text-lg font-semibold'}>An introduction to {capitalize(counselor.firstName) + ' ' + capitalize(counselor.lastName)}</span>
                     <span>{counselor.introduction}</span>
-                </div>
+                </div>}
 
 
-                <div className={'flex flex-col w-full'}>
+                {counselor.approachDesc.length > 0 &&  <div className={'flex flex-col w-full'}>
                     <span className={'text-lg bg-pinka-600 font-semibold'}>Therapy Approach</span>
                     <span>{counselor.approachDesc}</span>
-                </div>
+                </div>}
+
+
+                {counselor.geolocation && <span className={'italic font-semibold'}>{counselor.geolocation.name}</span>}
 
 
                 <div className={'flex flex-row'}>

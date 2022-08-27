@@ -76,6 +76,7 @@ const EditFiltersPage: FunctionComponent<{slug: string, filterList: string[]}> =
                 } else if (res.status === 409) {
                     setError({message: 'Filter Already exists'});
                 } else {
+                    setError({message: 'An error occured'});
                     throw new Error('Unkown error occured. Action failed');
                 }
             })

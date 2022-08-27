@@ -15,7 +15,7 @@ module.exports = {
 
                 'secondary_1': '#01a99c',
                 'secondary_2': '#458ccc',
-                'secondary_3': '#ff4b00',
+                'secondary_3': '#812600',
                 'secondary_4': '#009159',
                 'secondary_5': '#ff4b00',
             }

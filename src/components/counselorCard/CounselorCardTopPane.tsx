@@ -40,7 +40,10 @@ export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, to
                  className={"flex flex-col justify-between px-2.5 pb-1 grow min-h-fit break-words"}>
                 <div className={"flex flex-col h-fit mb-1 break-words"}>
                     <span
-                        className={"text-2xl font-bold my-1.5"}>{capitalize(counselor.firstName) + ' ' + capitalize(counselor.lastName)}</span>
+                        className={"text-2xl font-bold"}>{capitalize(counselor.firstName) + ' ' + capitalize(counselor.lastName)}
+                        {counselor.geolocation && <Tag customColour={'border-secondary_4 bg-secondary_4/20 text-secondary_4'} inputText={'In Person'}/>}
+                    </span>
+
                     <div className={"flex flex-wrap mb-2"}>
                         {counselor.credentials && counselor.credentials.map((v, i) => <Tag key={i}
                                                                                            inputText={v}/>)}
@@ -64,9 +67,16 @@ export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, to
                                 className={''}>Max Occupancy: {(counselor.supervising) ? counselor.supervising.occupancy : 'unavailable'}</span>
                         }
 
-                        <span className={''}>Cost per session: ${
-                            lookingForcounselor ? ((counselor.counselling) ? counselor.counselling.minPrice : 'unavailable') : ((lookingForSupervisor && counselor.supervising) ? counselor.supervising.minPrice : 'unavailable')
+                        {/*<span className={''}>Cost per session: ${*/}
+                        {/*    lookingForcounselor ? ((counselor.counselling) ? counselor.counselling.minPrice : 'unavailable') : ((lookingForSupervisor && counselor.supervising) ? counselor.supervising.minPrice : 'unavailable')*/}
+                        {/*}</span>*/}
+                        {/* They asked me to leave the price ambiguous to avoid clients low-balling. */}
+                        <span className={''}>Standard rate per session: ${
+                            lookingForcounselor ? (config.defaultCounsellingRate ?? 'unavailable') : ((lookingForSupervisor && config.defaultSupervisingRate) ? config.defaultSupervisingRate : 'unavailable')
                         }</span>
+                        <span className={'text-sm italic font-medium'}>
+                        Sliding scale rates available
+                        </span>
                     </div>
 
                     <div className={"flex flex-row justify-start"}>
