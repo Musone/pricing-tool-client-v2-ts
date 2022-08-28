@@ -219,7 +219,7 @@ const UserProfilePanel: FunctionComponent<{loading:boolean, setLoading: Callable
                                     onChange={(e) => setNewPassword(e.target.value)} id="grid-password" type="password"
                                     placeholder="******************"/>
                                 {badPassword &&
-                                    <p className="text-red-500 text-xs italic">Invalid password</p>
+                                    <p className="text-red-500 text-xs italic">Minimum 6 characters</p>
                                 }
                             </div>
 

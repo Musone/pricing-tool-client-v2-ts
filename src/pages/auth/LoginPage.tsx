@@ -13,7 +13,8 @@ import Spinner from "../../components/Spinner";
 import {isEmailValid, isPasswordValid, login} from "../../utils/auth";
 import PageWrapper from "../../components/PageWrapper";
 import {Link} from "react-router-dom";
-import {forgotPasswordPageRoute} from "../../constants/generalRoutes";
+import {emailVerificationPageRoute, forgotPasswordPageRoute} from "../../constants/generalRoutes";
+import {VERIFY_EMAIL_URL} from "../../constants/urls";
 
 /**
  * todo: I could do the error handling better in here.
@@ -29,7 +30,9 @@ const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): 
     const [badEmail, setBadEmail] = useState(false);
     const [badPassword, setBadPassword] = useState(false);
     const [failedLogin, setFailedLogin] = useState(false);
+    const [notVerified, setNotVerified] = useState(false);
     const [serverNotResponding, setServerNotResponding] = useState(false);
+    const [id, setId] = useState('');
 
     // ~~ These states are used to control what the page displays. ~~
 
@@ -44,6 +47,7 @@ const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): 
         e.preventDefault();
         setFailedLogin(false);
         setServerNotResponding(false);
+        setNotVerified(false);
 
         const isEmailInvalid = !isEmailValid(email);
         const isPasswordInvalid = !isPasswordValid(password);
@@ -67,15 +71,17 @@ const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): 
             .catch((e) => {
                 if (resChain.length < 1) {
                     setServerNotResponding(true);
-                } else {
-                    setServerNotResponding(false);
                 }
 
                 if (resChain[resChain.length - 1].status === 401) {
                     setFailedLogin(true);
-                } else {
-                    setFailedLogin(false);
                 }
+
+                if (resChain[resChain.length - 1].status === 403) {
+                    setNotVerified(true);
+                    resChain[resChain.length - 1].json().then((data) => setId(data.id));
+                }
+
                 console.error(e);
             })
             .finally(() => {
@@ -109,6 +115,11 @@ const LoginPage: FunctionComponent<{redirectPath?: string}> = ({redirectPath}): 
                                 onChange={(e) => setPassword(e.target.value)}/>
                             <p className="text-red-500 text-xs italic">{badPassword && 'Invalid password'}</p>
                             <p className="text-red-500 text-xs italic">{failedLogin && 'Invalid email or password'}</p>
+                            <p className="text-red-500 text-xs italic">{notVerified && (
+                                <>
+                                Please <a onClick={() => fetch(`${VERIFY_EMAIL_URL}/${id}`).then(() => location.assign(emailVerificationPageRoute.path))} className={'hover:underline hover:cursor-pointer text-secondary_4'} >verify</a> your email
+                                </>
+                            )}</p>
                             <p className="text-red-500 text-xs italic">{serverNotResponding && 'Server not responding. Please try again later.'}</p>
                         </div>
                         <div className="flex items-center justify-between">

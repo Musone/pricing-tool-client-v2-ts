@@ -12,3 +12,4 @@ export const COUNSELOR_URL: RequestInfo = `${serverUrl}/api/counselors`;
 export const LOGOUT_URL: RequestInfo = `${serverUrl}/api/sessions/logout`;
 export const GET_USERS_URL: RequestInfo = `${serverUrl}/api/users`;
 export const GET_FILTERS_URL: RequestInfo = `${serverUrl}/api/filters`;
+export const VERIFY_EMAIL_URL: RequestInfo = `${serverUrl}/api/verify`;
