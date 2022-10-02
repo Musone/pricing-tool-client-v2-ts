@@ -368,6 +368,8 @@ const CounselorProfileView: FunctionComponent<{
                         <span className={'ml-1.5 text-xs text-red-600'}>Server update validation failed</span>}
                     {serverError === 'IMAGE_TOO_BIG' &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Image file size too large</span>}
+                    {serverError === 'SERVER_ERROR' &&
+                        <span className={'ml-1.5 text-xs text-red-600'}>A server error occured. This might have happened because profile picture uploading is unavailable.</span>}
                     {(errors.age || errors.pronouns || errors.gender || errors.supervising || errors.counselling) &&
                         <span className={'ml-1.5 text-xs text-red-600'}>Some inputs are required</span>
                     }

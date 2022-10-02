@@ -177,13 +177,13 @@ export const generalRoutes: IRoute[] = [
         name: 'HOME',
         protected: false
     },
-    {
+    /*{
         path: '/clients',
         component: ClientsPage, // Todo
         class: '',
         name: 'CLIENTS',
         protected: false
-    },
+    },*/
     {
         path: '/about-us',
         component: AboutUsPage, // Todo
@@ -205,13 +205,13 @@ export const generalRoutes: IRoute[] = [
         name: 'CONTACT',
         protected: false
     },
-    {
+    /*{
         path: '/FAQ',
         component: FaqPage, // Todo
         class: '',
         name: 'FAQ',
         protected: false
-    },
+    },*/
 ];
 
 export const bookingRoutes: IRoute[] = [

@@ -1,7 +1,12 @@
 import React, {ReactElement} from "react";
+import ExternalRedirect from "../../components/ExternalRedirect";
+import config from "../../config/config";
 
 const ContactPage = (): ReactElement => {
-    return (<div>Contact page stub</div>)
+
+    return <ExternalRedirect redirectLink={config.aboutUsUrl} />
+
+    // return (<div>Contact page stub</div>)
     /*return (
         <div id="contactPage">
             <Container>

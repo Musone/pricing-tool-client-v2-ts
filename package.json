@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "git add . && git commit -m Heroku && git push heroku master"
+    "deploy": "git add . && git commit -m Heroku && git push heroku master",
+    "push": "git add . && git commit -m \"Auto-Push\" && git push origin master"
   },
   "engines": {
     "node": "16.4.2"

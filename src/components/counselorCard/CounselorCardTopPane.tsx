@@ -41,7 +41,11 @@ export const CounselorCardTopPane: FunctionComponent<{ counselor: ICounselor, to
                 <div className={"flex flex-col h-fit mb-1 break-words"}>
                     <span
                         className={"text-2xl font-bold"}>{capitalize(counselor.firstName) + ' ' + capitalize(counselor.lastName)}
+                        <div className={"flex flex-wrap"}>
+
+                        <Tag customColour={'border-secondary_4 bg-secondary_4/20 text-secondary_4'} inputText={'Virtual'}/>
                         {counselor.geolocation && <Tag customColour={'border-secondary_4 bg-secondary_4/20 text-secondary_4'} inputText={'In Person'}/>}
+                        </div>
                     </span>
 
                     <div className={"flex flex-wrap mb-2"}>

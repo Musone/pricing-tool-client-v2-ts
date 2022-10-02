@@ -1,8 +1,12 @@
 import React, {Component, ReactElement} from 'react';
 import '../../assets/css/index.css'
+import ExternalRedirect from "../../components/ExternalRedirect";
+import config from "../../config/config";
 
 const AboutUsPage = (): ReactElement => {
-    return (
+
+    return <ExternalRedirect redirectLink={config.aboutUsUrl} />
+    /*return (
         <div className={'container'} id="aboutPage" style={{ paddingBottom: "10vh" }}>
             <div className="row row-spacing">
                 <div className="col col-md-12 p-2">
@@ -21,10 +25,10 @@ const AboutUsPage = (): ReactElement => {
                     </h1>
                 </div>
                 <div className="col col-md-4 p-2">
-                    <p>{/*{ABOUT_US_DATA1}*/} Lorem ipsum dolor sit amet, consectetur adipisicing elit. At beatae consectetur, consequatur corporis ea eius est expedita iure laudantium libero, natus neque nihil pariatur, repellat suscipit temporibus totam vitae voluptate. </p>
+                    <p>{/!*{ABOUT_US_DATA1}*!/} Lorem ipsum dolor sit amet, consectetur adipisicing elit. At beatae consectetur, consequatur corporis ea eius est expedita iure laudantium libero, natus neque nihil pariatur, repellat suscipit temporibus totam vitae voluptate. </p>
                 </div>
                 <div className="col col-md-4 p-2">
-                    <p>{/*{ABOUT_US_DATA2}*/} Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid animi autem blanditiis consequuntur debitis dicta dolores eos, et facere harum labore odit omnis, pariatur perferendis, quod tenetur vel veritatis. </p>
+                    <p>{/!*{ABOUT_US_DATA2}*!/} Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid animi autem blanditiis consequuntur debitis dicta dolores eos, et facere harum labore odit omnis, pariatur perferendis, quod tenetur vel veritatis. </p>
                 </div>
             </div>
             <div className="row row-spacing">
@@ -71,7 +75,7 @@ const AboutUsPage = (): ReactElement => {
                 </div>
             </div>
         </div>
-    );
+    );*/
 }
 
 export default AboutUsPage;

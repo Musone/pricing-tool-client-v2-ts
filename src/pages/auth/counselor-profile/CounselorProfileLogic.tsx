@@ -11,6 +11,7 @@ export enum ServerError {
     NOT_RESPONDING='NOT_RESPONDING',
     BAD_REQUEST='BAD_REQUEST',
     IMAGE_TOO_BIG='IMAGE_TOO_BIG',
+    SERVER_ERROR='SERVER_ERROR',
 }
 
 const CounselorProfileLogic: FunctionComponent<{
@@ -56,6 +57,8 @@ const CounselorProfileLogic: FunctionComponent<{
                     setServerError(ServerError.BAD_REQUEST);
                 } else if (res.status === 413) {
                     setServerError(ServerError.IMAGE_TOO_BIG);
+                } else if (res.status === 500) {
+                    setServerError(ServerError.SERVER_ERROR);
                 }
             })
             .catch((err) => {

@@ -18,6 +18,7 @@ const SearchBar: FunctionComponent<{
     useEffect(() => {
         const filteredList = originalList.filter((obj: Object) => (obj[objKey as keyof typeof obj] as never as string).toLowerCase().includes(value.toLowerCase()));
         // console.log({filteredList})
+        // console.log(originalList)
         setList(filteredList, value);
     }, [trigger, value])
 

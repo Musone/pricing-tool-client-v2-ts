@@ -13,6 +13,11 @@ const config = {
 
     defaultCounsellingRate: 150,
     defaultSupervisingRate: 150,
+
+    homePageUrl: 'https://www.pharecounselling.com/',
+    aboutUsUrl: "https://www.pharecounselling.com/about-us",
+    blogUrl: "https://www.pharecounselling.com/mental-health-blog",
+    contactUrl: "https://www.pharecounselling.com/get-in-touch",
 }
 
 export default config;

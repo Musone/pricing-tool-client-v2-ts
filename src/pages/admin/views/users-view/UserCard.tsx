@@ -1,4 +1,4 @@
-import {FunctionComponent, useState} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import capitalize from "../../../../utils/capitalize";
 import PrimaryButton_2 from "../../../../components/buttons/PrimaryButton_2";
 import PrimaryButton_1 from "../../../../components/buttons/PrimaryButton_1";
@@ -16,6 +16,8 @@ const UserCard: FunctionComponent<{
     const [isAdmin, setIsAdmin] = useState(user.roles.includes('admin'));
     const [isCounselor, setIsCounselor] = useState(user.roles.includes('counselor'));
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => setIsCounselor(user.roles.includes('counselor')), [user])
 
     const handleToggleCounselorButtonClick = () => {
         if (!accessToken) {
